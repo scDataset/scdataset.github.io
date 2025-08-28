@@ -1,0 +1,10 @@
+[
+  {
+    "version": "stable",
+    "title": "stable"
+  },
+  {
+    "version": "latest", 
+    "title": "latest"
+  }
+]
