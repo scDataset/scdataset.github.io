@@ -161,6 +161,7 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Examples</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="scdataset.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
@@ -407,6 +408,12 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-processing-for-huggingface-data">Custom Processing for HuggingFace Data</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-multiindexable">Working with MultiIndexable</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-multiindexable-usage">Basic MultiIndexable Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-modal-single-cell-data">Multi-Modal Single-Cell Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subsetting-and-indexing">Subsetting and Indexing</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-with-pytorch-lightning">Integration with PyTorch Lightning</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-sampling-strategies">Advanced Sampling Strategies</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-weighted-sampling">Custom Weighted Sampling</a></li>
@@ -497,16 +504,64 @@ document.write(`
 </section>
 <section id="multi-modal-data">
 <h3>Multi-Modal Data<a class="headerlink" href="#multi-modal-data" title="Link to this heading">#</a></h3>
+<p>For multi-modal single-cell data (e.g., gene expression + protein measurements),
+you can use the <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiIndexable</span></code> class to keep different data modalities
+synchronized during indexing:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">scDataset</span><span class="p">,</span> <span class="n">BlockShuffling</span><span class="p">,</span> <span class="n">MultiIndexable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="c1"># Simulate multi-modal data</span>
+<span class="n">n_cells</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">gene_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_cells</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>     <span class="c1"># Gene expression</span>
+<span class="n">protein_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_cells</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>   <span class="c1"># Protein measurements</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_cells</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>        <span class="c1"># Cell metadata</span>
+
+<span class="c1"># Method 1: Using keyword arguments</span>
+<span class="n">multimodal_data</span> <span class="o">=</span> <span class="n">MultiIndexable</span><span class="p">(</span>
+    <span class="n">genes</span><span class="o">=</span><span class="n">gene_data</span><span class="p">,</span>
+    <span class="n">proteins</span><span class="o">=</span><span class="n">protein_data</span><span class="p">,</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span>
+<span class="p">)</span>
+
+<span class="c1"># Method 2: Using dictionary as positional argument</span>
+<span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;genes&#39;</span><span class="p">:</span> <span class="n">gene_data</span><span class="p">,</span>
+    <span class="s1">&#39;proteins&#39;</span><span class="p">:</span> <span class="n">protein_data</span><span class="p">,</span>
+    <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="n">metadata</span>
+<span class="p">}</span>
+<span class="n">multimodal_data</span> <span class="o">=</span> <span class="n">MultiIndexable</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
+
+<span class="c1"># Create dataset - all modalities will be indexed together</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+    <span class="n">multimodal_data</span><span class="p">,</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span>
+<span class="p">)</span>
+
+<span class="c1"># Use with DataLoader</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+    <span class="n">genes</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;genes&#39;</span><span class="p">]</span>        <span class="c1"># Shape: (32, 2000)</span>
+    <span class="n">proteins</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;proteins&#39;</span><span class="p">]</span>  <span class="c1"># Shape: (32, 100)</span>
+    <span class="n">meta</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span>      <span class="c1"># Shape: (32, 10)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Genes: </span><span class="si">{</span><span class="n">genes</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, Proteins: </span><span class="si">{</span><span class="n">proteins</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, Meta: </span><span class="si">{</span><span class="n">meta</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># All correspond to the same 32 cells</span>
+    <span class="k">break</span>
+</pre></div>
+</div>
+<p>Alternative approach with custom fetch function (for AnnData objects):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fetch_multimodal</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">indices</span><span class="p">):</span>
     <span class="c1"># Fetch both gene expression and protein data</span>
     <span class="n">gene_data</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
     <span class="n">protein_data</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;protein&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
 
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="s1">&#39;genes&#39;</span><span class="p">:</span> <span class="n">gene_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
-        <span class="s1">&#39;proteins&#39;</span><span class="p">:</span> <span class="n">protein_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
-        <span class="s1">&#39;cell_types&#39;</span><span class="p">:</span> <span class="n">adata</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;cell_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">MultiIndexable</span><span class="p">(</span>
+        <span class="n">genes</span><span class="o">=</span><span class="n">gene_data</span><span class="p">,</span>
+        <span class="n">proteins</span><span class="o">=</span><span class="n">protein_data</span>
+    <span class="p">)</span>
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">adata</span><span class="p">,</span>
@@ -644,55 +699,111 @@ document.write(`
 
 <span class="c1"># Custom batch callback for HuggingFace datasets</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">extract_hf_batch</span><span class="p">(</span><span class="n">fetched_data</span><span class="p">,</span> <span class="n">batch_indices</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract a batch from HuggingFace dataset fetched data.&quot;&quot;&quot;</span>
-    <span class="n">batch</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">fetched_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">batch</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">batch_indices</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">batch</span>
 
 <span class="c1"># Create dataset with custom batch callback</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
-    <span class="n">hf_dataset</span><span class="p">,</span>
-    <span class="n">Streaming</span><span class="p">(),</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
-    <span class="n">batch_callback</span><span class="o">=</span><span class="n">extract_hf_batch</span>
 <span class="p">)</span>
 
 <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="c1"># batch will be a dictionary with dataset features</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Batch keys:&quot;</span><span class="p">,</span> <span class="n">batch</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Batch size:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]))</span>
-    <span class="k">break</span>
 </pre></div>
 </div>
 </section>
 <section id="custom-processing-for-huggingface-data">
 <h3>Custom Processing for HuggingFace Data<a class="headerlink" href="#custom-processing-for-huggingface-data" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">extract_hf_batch</span><span class="p">(</span><span class="n">fetched_data</span><span class="p">,</span> <span class="n">batch_indices</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract a batch from HuggingFace dataset fetched data.&quot;&quot;&quot;</span>
-    <span class="n">batch</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">fetched_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">batch</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">batch_indices</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">batch</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">process_hf_batch</span><span class="p">(</span><span class="n">batch_dict</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Process HuggingFace batch into numpy arrays.&quot;&quot;&quot;</span>
-    <span class="c1"># Extract and process specific features</span>
-    <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">batch_dict</span><span class="p">[</span><span class="s1">&#39;expression&#39;</span><span class="p">])</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">batch_dict</span><span class="p">[</span><span class="s1">&#39;cell_type_id&#39;</span><span class="p">])</span>
-
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="s1">&#39;features&#39;</span><span class="p">:</span> <span class="n">features</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
-        <span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
-    <span class="p">}</span>
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
-    <span class="n">hf_dataset</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
-    <span class="n">batch_callback</span><span class="o">=</span><span class="n">extract_hf_batch</span><span class="p">,</span>
-    <span class="n">batch_transform</span><span class="o">=</span><span class="n">process_hf_batch</span>
 <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="working-with-multiindexable">
+<h2>Working with MultiIndexable<a class="headerlink" href="#working-with-multiindexable" title="Link to this heading">#</a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiIndexable</span></code> class provides a convenient way to group multiple
+indexable objects that should be indexed together. This is particularly useful
+for multi-modal data or features and labels.</p>
+<section id="basic-multiindexable-usage">
+<h3>Basic MultiIndexable Usage<a class="headerlink" href="#basic-multiindexable-usage" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiIndexable</span><span class="p">,</span> <span class="n">scDataset</span><span class="p">,</span> <span class="n">Streaming</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="c1"># Create sample data</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>  <span class="c1"># Features</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>  <span class="c1"># Labels</span>
+
+<span class="c1"># Group them together</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">MultiIndexable</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
+
+<span class="c1"># Or using dictionary syntax</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">MultiIndexable</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">features</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># Create dataset</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+    <span class="n">X_batch</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span>  <span class="c1"># or batch[0]</span>
+    <span class="n">y_batch</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span>  <span class="c1"># or batch[1]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Features: </span><span class="si">{</span><span class="n">X_batch</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, Labels: </span><span class="si">{</span><span class="n">y_batch</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">break</span>
+</pre></div>
+</div>
+</section>
+<section id="multi-modal-single-cell-data">
+<h3>Multi-Modal Single-Cell Data<a class="headerlink" href="#multi-modal-single-cell-data" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate CITE-seq data (RNA + protein)</span>
+<span class="n">n_cells</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">rna_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_cells</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>      <span class="c1"># Gene expression</span>
+<span class="n">protein_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_cells</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>    <span class="c1"># Surface proteins</span>
+<span class="n">cell_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;NK&#39;</span><span class="p">],</span> <span class="n">n_cells</span><span class="p">)</span>  <span class="c1"># Labels</span>
+
+<span class="c1"># Group all modalities</span>
+<span class="n">cite_seq_data</span> <span class="o">=</span> <span class="n">MultiIndexable</span><span class="p">(</span>
+    <span class="n">rna</span><span class="o">=</span><span class="n">rna_data</span><span class="p">,</span>
+    <span class="n">proteins</span><span class="o">=</span><span class="n">protein_data</span><span class="p">,</span>
+    <span class="n">cell_types</span><span class="o">=</span><span class="n">cell_types</span>
+<span class="p">)</span>
+
+<span class="c1"># Use with class-balanced sampling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassBalancedSampling</span>
+<span class="n">strategy</span> <span class="o">=</span> <span class="n">ClassBalancedSampling</span><span class="p">(</span><span class="n">cell_types</span><span class="p">,</span> <span class="n">total_size</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">cite_seq_data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
+    <span class="n">rna</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;rna&#39;</span><span class="p">]</span>           <span class="c1"># RNA expression for 32 cells</span>
+    <span class="n">proteins</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;proteins&#39;</span><span class="p">]</span> <span class="c1"># Protein expression for same 32 cells</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;cell_types&#39;</span><span class="p">]</span>  <span class="c1"># Cell type labels for same 32 cells</span>
+    <span class="c1"># All data is synchronized - same cells across modalities</span>
+    <span class="k">break</span>
+</pre></div>
+</div>
+</section>
+<section id="subsetting-and-indexing">
+<h3>Subsetting and Indexing<a class="headerlink" href="#subsetting-and-indexing" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create MultiIndexable</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">MultiIndexable</span><span class="p">(</span>
+    <span class="n">features</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Access individual indexables</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]</span>  <span class="c1"># or data[0]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">]</span>      <span class="c1"># or data[1]</span>
+
+<span class="c1"># Subset by sample indices - returns new MultiIndexable</span>
+<span class="n">subset</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">200</span><span class="p">]</span>       <span class="c1"># Samples 100-199 from all modalities</span>
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">train_indices</span><span class="p">]</span>  <span class="c1"># Training subset</span>
+
+<span class="c1"># Check properties</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>      <span class="c1"># 1000 samples</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subset length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>      <span class="c1"># 100 samples</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of modalities: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># 3 modalities</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Modality names: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">names</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>      <span class="c1"># [&#39;features&#39;, &#39;labels&#39;, &#39;metadata&#39;]</span>
 </pre></div>
 </div>
 </section>
@@ -902,6 +1013,12 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-huggingface-datasets">Working with HuggingFace Datasets</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-processing-for-huggingface-data">Custom Processing for HuggingFace Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-multiindexable">Working with MultiIndexable</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-multiindexable-usage">Basic MultiIndexable Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-modal-single-cell-data">Multi-Modal Single-Cell Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subsetting-and-indexing">Subsetting and Indexing</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-with-pytorch-lightning">Integration with PyTorch Lightning</a></li>

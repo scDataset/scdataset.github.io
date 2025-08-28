@@ -160,6 +160,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../scdataset.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
@@ -345,7 +346,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="scDataset">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.scDataset">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.scDataset.html#scdataset.scDataset">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">scDataset</span><span class="p">(</span><span class="n">IterableDataset</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Iterable PyTorch Dataset for on-disk data collections with flexible sampling strategies.</span>
@@ -457,7 +458,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     
 <div class="viewcode-block" id="scDataset.__init__">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.scDataset.__init__">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.scDataset.html#scdataset.scDataset.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> 
         <span class="n">data_collection</span><span class="p">,</span> 
@@ -520,7 +521,7 @@ document.write(`
 
         
 <div class="viewcode-block" id="scDataset.__len__">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.scDataset.__len__">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.scDataset.html#scdataset.scDataset.__len__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the number of batches in the dataset.</span>
@@ -568,7 +569,7 @@ document.write(`
 
         
 <div class="viewcode-block" id="scDataset.__iter__">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.scDataset.__iter__">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.scDataset.html#scdataset.scDataset.__iter__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yield batches of data according to the sampling strategy.</span>

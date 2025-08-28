@@ -160,6 +160,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../scdataset.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
@@ -356,7 +357,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="SamplingStrategy">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.SamplingStrategy">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.SamplingStrategy.html#scdataset.strategy.SamplingStrategy">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SamplingStrategy</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class for sampling strategies.</span>
@@ -384,14 +385,14 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     
 <div class="viewcode-block" id="SamplingStrategy.__init__">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.SamplingStrategy.__init__">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.SamplingStrategy.html#scdataset.strategy.SamplingStrategy.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the sampling strategy.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_shuffle_before_yield</span> <span class="o">=</span> <span class="kc">None</span></div>
 
         
 <div class="viewcode-block" id="SamplingStrategy.get_indices">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.SamplingStrategy.get_indices">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.SamplingStrategy.html#scdataset.strategy.SamplingStrategy.get_indices">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_collection</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">intp</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate indices for sampling from the data collection.</span>
@@ -452,7 +453,7 @@ document.write(`
 
     
 <div class="viewcode-block" id="Streaming">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.Streaming">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.Streaming.html#scdataset.strategy.Streaming">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Streaming</span><span class="p">(</span><span class="n">SamplingStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sequential streaming sampling strategy with optional buffer-level shuffling.</span>
@@ -520,7 +521,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     
 <div class="viewcode-block" id="Streaming.__init__">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.Streaming.__init__">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.Streaming.html#scdataset.strategy.Streaming.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">shuffle</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize streaming strategy.</span>
@@ -542,7 +543,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Streaming.get_len">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.Streaming.get_len">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.Streaming.html#scdataset.strategy.Streaming.get_len">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_len</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_collection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the effective length of the data collection for this strategy.</span>
@@ -573,7 +574,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Streaming.get_indices">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.Streaming.get_indices">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.Streaming.html#scdataset.strategy.Streaming.get_indices">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_collection</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">intp</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get indices for streaming sampling.</span>
@@ -623,7 +624,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="BlockShuffling">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.BlockShuffling">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.BlockShuffling.html#scdataset.strategy.BlockShuffling">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockShuffling</span><span class="p">(</span><span class="n">SamplingStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block-based shuffling sampling strategy.</span>
@@ -684,7 +685,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     
 <div class="viewcode-block" id="BlockShuffling.__init__">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.BlockShuffling.__init__">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.BlockShuffling.html#scdataset.strategy.BlockShuffling.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">drop_last</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize block shuffling strategy.</span>
@@ -713,7 +714,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="BlockShuffling.get_len">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.BlockShuffling.get_len">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.BlockShuffling.html#scdataset.strategy.BlockShuffling.get_len">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_len</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_collection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the effective length of the data collection for this strategy.</span>
@@ -751,7 +752,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="BlockShuffling.get_indices">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.BlockShuffling.get_indices">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.BlockShuffling.html#scdataset.strategy.BlockShuffling.get_indices">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_collection</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">intp</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate indices with block-based shuffling.</span>
@@ -833,7 +834,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="BlockWeightedSampling">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.BlockWeightedSampling">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.BlockWeightedSampling.html#scdataset.strategy.BlockWeightedSampling">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockWeightedSampling</span><span class="p">(</span><span class="n">SamplingStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Weighted sampling with block-based shuffling.</span>
@@ -917,7 +918,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     
 <div class="viewcode-block" id="BlockWeightedSampling.__init__">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.BlockWeightedSampling.__init__">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.BlockWeightedSampling.html#scdataset.strategy.BlockWeightedSampling.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> 
         <span class="n">block_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> 
@@ -977,7 +978,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="BlockWeightedSampling.get_len">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.BlockWeightedSampling.get_len">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.BlockWeightedSampling.html#scdataset.strategy.BlockWeightedSampling.get_len">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_len</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_collection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the effective length of the data collection for this strategy.</span>
@@ -1017,7 +1018,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="BlockWeightedSampling.get_indices">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.BlockWeightedSampling.get_indices">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.BlockWeightedSampling.html#scdataset.strategy.BlockWeightedSampling.get_indices">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_collection</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">intp</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate indices using weighted sampling followed by block shuffling.</span>
@@ -1128,7 +1129,7 @@ document.write(`
         
 
 <div class="viewcode-block" id="ClassBalancedSampling">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.ClassBalancedSampling">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.ClassBalancedSampling.html#scdataset.strategy.ClassBalancedSampling">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ClassBalancedSampling</span><span class="p">(</span><span class="n">BlockWeightedSampling</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class-balanced sampling with automatic weight computation.</span>
@@ -1199,7 +1200,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     
 <div class="viewcode-block" id="ClassBalancedSampling.__init__">
-<a class="viewcode-back" href="../../scdataset.html#scdataset.strategy.ClassBalancedSampling.__init__">[docs]</a>
+<a class="viewcode-back" href="../../generated/scdataset.strategy.ClassBalancedSampling.html#scdataset.strategy.ClassBalancedSampling.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> 
         <span class="n">labels</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span> 
