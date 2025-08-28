@@ -471,11 +471,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unreleased">[Unreleased]</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">[0.2.0] - 2025-08-13</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#added">Added</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#technical-details">Technical Details</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#known-issues">Known Issues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">[0.2.0] - 2025-08-28</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes"><strong>Breaking Changes</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#added"><strong>Added</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#migration-guide"><strong>Migration Guide</strong></a></li>
 </ul>
 </li>
 </ul>
@@ -491,73 +490,54 @@ document.write(`
                   
   <section id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
-<p>This document tracks all notable changes to <code class="docutils literal notranslate"><span class="pre">scDataset</span></code>.</p>
-<p>The format is based on <a class="reference external" href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,
-and this project adheres to <a class="reference external" href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
-<section id="unreleased">
-<h2>[Unreleased]<a class="headerlink" href="#unreleased" title="Link to this heading">#</a></h2>
-</section>
 <section id="id1">
-<h2>[0.2.0] - 2025-08-13<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<h2>[0.2.0] - 2025-08-28<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<section id="breaking-changes">
+<h3><strong>Breaking Changes</strong><a class="headerlink" href="#breaking-changes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Completely redesigned API</strong>: scDataset now uses a strategy-based sampling approach instead of modes</p></li>
+<li><p><strong>Constructor changes</strong>: <code class="docutils literal notranslate"><span class="pre">scDataset(data_collection,</span> <span class="pre">strategy,</span> <span class="pre">batch_size,</span> <span class="pre">...)</span></code> replaces old <code class="docutils literal notranslate"><span class="pre">scDataset(data_collection,</span> <span class="pre">batch_size,</span> <span class="pre">...)</span></code></p></li>
+<li><p><strong>Removed methods</strong>: <code class="docutils literal notranslate"><span class="pre">subset()</span></code>, <code class="docutils literal notranslate"><span class="pre">set_mode()</span></code>, <code class="docutils literal notranslate"><span class="pre">block_size</span></code>, <code class="docutils literal notranslate"><span class="pre">fetch_factor</span></code> parameters moved to strategies</p></li>
+<li><p><strong>New required parameter</strong>: <code class="docutils literal notranslate"><span class="pre">strategy</span></code> - must provide a <code class="docutils literal notranslate"><span class="pre">SamplingStrategy</span></code> instance</p></li>
+</ul>
+</section>
 <section id="added">
-<h3>Added<a class="headerlink" href="#added" title="Link to this heading">#</a></h3>
+<h3><strong>Added</strong><a class="headerlink" href="#added" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Core <code class="docutils literal notranslate"><span class="pre">scDataset</span></code> class with flexible sampling strategies</p></li>
-<li><p>Sampling strategies:</p>
+<li><p><strong>Strategy-based sampling system</strong>:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">Streaming</span></code> - Sequential sampling without shuffling</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">BlockShuffling</span></code> - Block-based shuffling for locality</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">BlockWeightedSampling</span></code> - Weighted sampling with blocks</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ClassBalancedSampling</span></code> - Automatic class balancing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SamplingStrategy</span></code> - Abstract base class for all sampling strategies</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Streaming</span></code> - Sequential sampling with optional buffer-level shuffling</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BlockShuffling</span></code> - Block-based shuffling for data locality while maintaining randomization</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BlockWeightedSampling</span></code> - Weighted sampling with configurable block sizes and replacement options</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClassBalancedSampling</span></code> - Automatic class balancing for imbalanced datasets</p></li>
 </ul>
 </li>
-<li><p>Support for multiple data formats:</p>
+<li><p><strong>``MultiIndexable`` class</strong> - Container for multi-modal data with synchronized indexing:</p>
 <ul>
-<li><p>NumPy arrays</p></li>
-<li><p>AnnData objects</p></li>
-<li><p>HuggingFace Datasets</p></li>
-<li><p>PyTorch Datasets</p></li>
-<li><p>Any object with <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> and <code class="docutils literal notranslate"><span class="pre">__len__</span></code></p></li>
+<li><p>Supports multiple indexable objects (arrays, lists, etc.) that are indexed together</p></li>
+<li><p>Named and positional access to contained indexables</p></li>
+<li><p>Useful for gene expression + protein data, features + labels, etc.</p></li>
 </ul>
 </li>
-<li><p>Performance optimizations:</p>
-<ul>
-<li><p>Block-based data fetching</p></li>
-<li><p>Configurable fetch factors</p></li>
-<li><p>Multiprocessing support</p></li>
-</ul>
-</li>
-<li><p>Customization features:</p>
-<ul>
-<li><p>Custom fetch callbacks</p></li>
-<li><p>Custom batch callbacks</p></li>
-<li><p>Fetch and batch transforms</p></li>
-</ul>
-</li>
-<li><p>Comprehensive documentation and examples</p></li>
-<li><p>Test suite with &gt;90% coverage</p></li>
-<li><p>GitHub Actions CI/CD pipeline</p></li>
 </ul>
 </section>
-<section id="technical-details">
-<h3>Technical Details<a class="headerlink" href="#technical-details" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Minimum Python version: 3.8</p></li>
-<li><p>Core dependencies: <code class="docutils literal notranslate"><span class="pre">torch</span> <span class="pre">&gt;=</span> <span class="pre">1.2.0</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">&gt;=</span> <span class="pre">1.17.0</span></code></p></li>
-<li><p>Compatible with PyTorch DataLoader</p></li>
-<li><p>Supports both eager and lazy data loading patterns</p></li>
-</ul>
-</section>
-<section id="known-issues">
-<h3>Known Issues<a class="headerlink" href="#known-issues" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Performance may vary depending on storage backend (SSD vs HDD)</p></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This changelog will be updated with each release.
-See the <a class="reference external" href="https://github.com/scDataset/scDataset/releases">GitHub releases page</a>
-for the most up-to-date information.</p>
+<section id="migration-guide">
+<h3><strong>Migration Guide</strong><a class="headerlink" href="#migration-guide" title="Link to this heading">#</a></h3>
+<p><strong>Old v0.1.x syntax</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># v0.1.x - No longer supported</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">dataset</span><span class="o">.</span><span class="n">subset</span><span class="p">(</span><span class="n">train_indices</span><span class="p">)</span>
+<span class="n">dataset</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>New v0.2.0 syntax</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># v0.2.0 - Strategy-based approach</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">scDataset</span><span class="p">,</span> <span class="n">BlockShuffling</span>
+
+<span class="n">strategy</span> <span class="o">=</span> <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">train_indices</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
 </div>
 </section>
 </section>
@@ -599,11 +579,10 @@ for the most up-to-date information.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unreleased">[Unreleased]</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">[0.2.0] - 2025-08-13</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#added">Added</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#technical-details">Technical Details</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#known-issues">Known Issues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">[0.2.0] - 2025-08-28</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes"><strong>Breaking Changes</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#added"><strong>Added</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#migration-guide"><strong>Migration Guide</strong></a></li>
 </ul>
 </li>
 </ul>
