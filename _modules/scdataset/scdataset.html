@@ -463,7 +463,7 @@ document.write(`
         <span class="n">data_collection</span><span class="p">,</span> 
         <span class="n">strategy</span><span class="p">:</span> <span class="n">SamplingStrategy</span><span class="p">,</span>
         <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> 
-        <span class="n">fetch_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> 
+        <span class="n">fetch_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> 
         <span class="n">drop_last</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">fetch_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
         <span class="n">batch_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -481,7 +481,7 @@ document.write(`
 <span class="sd">            Sampling strategy instance.</span>
 <span class="sd">        batch_size : int</span>
 <span class="sd">            Positive integer for batch size.</span>
-<span class="sd">        fetch_factor : int, default=1</span>
+<span class="sd">        fetch_factor : int, default=16</span>
 <span class="sd">            Positive integer for fetch size multiplier.</span>
 <span class="sd">        drop_last : bool, default=False</span>
 <span class="sd">            Whether to drop incomplete batches.</span>

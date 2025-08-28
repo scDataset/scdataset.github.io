@@ -453,13 +453,13 @@ document.write(`
 <span class="c1"># Create dataset with block shuffling</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">adata</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">128</span><span class="p">),</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
     <span class="n">fetch_callback</span><span class="o">=</span><span class="n">fetch_anndata</span>
 <span class="p">)</span>
 
 <span class="c1"># Use with DataLoader</span>
-<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing batch of shape: </span><span class="si">{</span><span class="n">batch</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -480,14 +480,16 @@ document.write(`
 <span class="n">strategy</span> <span class="o">=</span> <span class="n">ClassBalancedSampling</span><span class="p">(</span>
     <span class="n">cell_types</span><span class="p">,</span>
     <span class="n">total_size</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>  <span class="c1"># Generate 10k balanced samples per epoch</span>
-    <span class="n">block_size</span><span class="o">=</span><span class="mi">64</span>
+    <span class="n">block_size</span><span class="o">=</span><span class="mi">8</span>
 <span class="p">)</span>
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">fetch_callback</span><span class="o">=</span><span class="n">fetch_anndata</span><span class="p">)</span>
 
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
 <span class="c1"># Training loop with balanced batches</span>
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
         <span class="c1"># Each batch will be class-balanced</span>
         <span class="n">train_step</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
 </pre></div>
@@ -508,7 +510,7 @@ document.write(`
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">adata</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
     <span class="n">fetch_callback</span><span class="o">=</span><span class="n">fetch_multimodal</span>
 <span class="p">)</span>
@@ -533,6 +535,7 @@ document.write(`
 <span class="c1"># Configure DataLoader for optimal performance</span>
 <span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
     <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">num_workers</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>          <span class="c1"># Use multiple workers</span>
     <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span>      <span class="c1"># fetch_factor + 1</span>
     <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>        <span class="c1"># For GPU training</span>
@@ -551,7 +554,7 @@ document.write(`
 <span class="c1"># Training dataset</span>
 <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span>
 <span class="p">)</span>
 
@@ -562,14 +565,20 @@ document.write(`
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span>
 <span class="p">)</span>
 
+<span class="c1"># Training loader</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Validation loader</span>
+<span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
 <span class="c1"># Training loop</span>
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
     <span class="c1"># Training</span>
-    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
         <span class="n">train_step</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
 
     <span class="c1"># Validation</span>
-    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">val_loader</span><span class="p">:</span>
         <span class="n">val_step</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -589,7 +598,7 @@ document.write(`
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">128</span><span class="p">),</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
     <span class="n">batch_transform</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">standardize_genes</span><span class="p">(</span><span class="n">log_normalize</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="p">)</span>
@@ -615,8 +624,8 @@ document.write(`
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
     <span class="n">batch_transform</span><span class="o">=</span><span class="n">augment_batch</span>
 <span class="p">)</span>
 </pre></div>
@@ -628,25 +637,49 @@ document.write(`
 <section id="basic-usage">
 <h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
 
 <span class="c1"># Load a HuggingFace dataset</span>
-<span class="n">hf_dataset</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;your_username/your_dataset&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
+<span class="n">hf_dataset</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;imdb&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train[:1000]&quot;</span><span class="p">)</span>
 
-<span class="c1"># Simple usage</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">hf_dataset</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="c1"># Custom batch callback for HuggingFace datasets</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_hf_batch</span><span class="p">(</span><span class="n">fetched_data</span><span class="p">,</span> <span class="n">batch_indices</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract a batch from HuggingFace dataset fetched data.&quot;&quot;&quot;</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">fetched_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">batch</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">batch_indices</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">batch</span>
 
-<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
+<span class="c1"># Create dataset with custom batch callback</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+    <span class="n">hf_dataset</span><span class="p">,</span>
+    <span class="n">Streaming</span><span class="p">(),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">batch_callback</span><span class="o">=</span><span class="n">extract_hf_batch</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># batch will be a dictionary with dataset features</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Batch keys:&quot;</span><span class="p">,</span> <span class="n">batch</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Batch size:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]))</span>
+    <span class="k">break</span>
 </pre></div>
 </div>
 </section>
 <section id="custom-processing-for-huggingface-data">
 <h3>Custom Processing for HuggingFace Data<a class="headerlink" href="#custom-processing-for-huggingface-data" title="Link to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">process_hf_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">extract_hf_batch</span><span class="p">(</span><span class="n">fetched_data</span><span class="p">,</span> <span class="n">batch_indices</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract a batch from HuggingFace dataset fetched data.&quot;&quot;&quot;</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">fetched_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">batch</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">batch_indices</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">batch</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">process_hf_batch</span><span class="p">(</span><span class="n">batch_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Process HuggingFace batch into numpy arrays.&quot;&quot;&quot;</span>
     <span class="c1"># Extract and process specific features</span>
-    <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;expression&#39;</span><span class="p">])</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;cell_type_id&#39;</span><span class="p">])</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">batch_dict</span><span class="p">[</span><span class="s1">&#39;expression&#39;</span><span class="p">])</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">batch_dict</span><span class="p">[</span><span class="s1">&#39;cell_type_id&#39;</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="p">{</span>
         <span class="s1">&#39;features&#39;</span><span class="p">:</span> <span class="n">features</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
@@ -655,8 +688,9 @@ document.write(`
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">hf_dataset</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">128</span><span class="p">),</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">batch_callback</span><span class="o">=</span><span class="n">extract_hf_batch</span><span class="p">,</span>
     <span class="n">batch_transform</span><span class="o">=</span><span class="n">process_hf_batch</span>
 <span class="p">)</span>
 </pre></div>
@@ -686,7 +720,7 @@ document.write(`
         <span class="c1"># Create datasets</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">128</span><span class="p">),</span>
+            <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
             <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span>
         <span class="p">)</span>
 
@@ -725,7 +759,7 @@ document.write(`
 <span class="n">strategy</span> <span class="o">=</span> <span class="n">BlockWeightedSampling</span><span class="p">(</span>
     <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span>
     <span class="n">total_size</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>
-    <span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
     <span class="n">replace</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 

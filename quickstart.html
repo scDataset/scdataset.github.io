@@ -437,13 +437,13 @@ document.write(`
 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># 1000 samples, 100 features</span>
 
 <span class="c1"># Create scDataset with streaming strategy</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 
 <span class="c1"># Use with DataLoader (note: batch_size=None)</span>
-<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Batch shape: </span><span class="si">{</span><span class="n">batch</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># (32, 100)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Batch shape: </span><span class="si">{</span><span class="n">batch</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># (64, 100)</span>
     <span class="c1"># Your training code here</span>
     <span class="k">break</span>
 </pre></div>
@@ -463,7 +463,13 @@ as batching is handled internally by the dataset.</p>
 
 <span class="c1"># Sequential access without shuffling</span>
 <span class="n">strategy</span> <span class="o">=</span> <span class="n">Streaming</span><span class="p">()</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+
+<span class="c1"># Sequential access with buffer-level shuffling (like Ray Dataset/WebDataset)</span>
+<span class="n">strategy</span> <span class="o">=</span> <span class="n">Streaming</span><span class="p">(</span><span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+<span class="c1"># This shuffles batches within each fetch buffer while maintaining</span>
+<span class="c1"># sequential order between buffers</span>
 </pre></div>
 </div>
 </section>
@@ -472,8 +478,8 @@ as batching is handled internally by the dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlockShuffling</span>
 
 <span class="c1"># Shuffle in blocks for better I/O while maintaining some randomness</span>
-<span class="n">strategy</span> <span class="o">=</span> <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">strategy</span> <span class="o">=</span> <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -481,10 +487,14 @@ as batching is handled internally by the dataset.</p>
 <h3>Weighted Sampling<a class="headerlink" href="#weighted-sampling" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlockWeightedSampling</span>
 
-<span class="c1"># Sample with custom weights</span>
+<span class="c1"># Sample with custom weights (e.g., higher weight for rare samples)</span>
 <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>  <span class="c1"># Custom weights per sample</span>
-<span class="n">strategy</span> <span class="o">=</span> <span class="n">BlockWeightedSampling</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">total_size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">strategy</span> <span class="o">=</span> <span class="n">BlockWeightedSampling</span><span class="p">(</span>
+    <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span>
+    <span class="n">total_size</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>  <span class="c1"># Generate 10000 samples per epoch</span>
+    <span class="n">block_size</span><span class="o">=</span><span class="mi">8</span>
+<span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -494,8 +504,8 @@ as batching is handled internally by the dataset.</p>
 
 <span class="c1"># Automatically balance classes</span>
 <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-<span class="n">strategy</span> <span class="o">=</span> <span class="n">ClassBalancedSampling</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">total_size</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">strategy</span> <span class="o">=</span> <span class="n">ClassBalancedSampling</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">total_size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -535,7 +545,7 @@ as batching is handled internally by the dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
 
 <span class="n">dataset_hf</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;your/dataset&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">dataset_hf</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">dataset_hf</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -545,7 +555,7 @@ as batching is handled internally by the dataset.</p>
 <p>For large datasets, you can optimize performance using these parameters:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>  <span class="c1"># Larger blocks for better I/O</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
     <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>  <span class="c1"># Fetch 16 batches at once</span>
 <span class="p">)</span>
@@ -572,7 +582,7 @@ as batching is handled internally by the dataset.</p>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
     <span class="n">Streaming</span><span class="p">(),</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
     <span class="n">fetch_transform</span><span class="o">=</span><span class="n">preprocess_fetch</span><span class="p">,</span>
     <span class="n">batch_transform</span><span class="o">=</span><span class="n">normalize_batch</span>
 <span class="p">)</span>
