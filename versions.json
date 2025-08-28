@@ -1,10 +1,12 @@
 [
   {
     "version": "stable",
-    "title": "stable"
+    "title": "stable",
+    "url": "https://scdataset.github.io/stable/"
   },
   {
     "version": "latest", 
-    "title": "latest"
+    "title": "latest",
+    "url": "https://scdataset.github.io/latest/"
   }
 ]
