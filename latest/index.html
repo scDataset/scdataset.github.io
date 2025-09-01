@@ -259,7 +259,6 @@ document.write(`
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 
@@ -527,8 +526,8 @@ used with any dataset.</p>
 <span class="c1"># Create dataset with streaming strategy</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 
-<span class="c1"># Use with PyTorch DataLoader</span>
-<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1"># Use with PyTorch DataLoader (note: batch_size=None)</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Batch shape: </span><span class="si">{</span><span class="n">batch</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -542,9 +541,6 @@ used with any dataset.</p>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#install-from-pypi">Install from PyPI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#install-from-github">Install from GitHub</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#development-installation">Development Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#verify-installation">Verify Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a><ul>
@@ -564,8 +560,6 @@ used with any dataset.</p>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#working-with-huggingface-datasets">Working with HuggingFace Datasets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#working-with-multiindexable">Working with MultiIndexable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#integration-with-pytorch-lightning">Integration with PyTorch Lightning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples.html#advanced-sampling-strategies">Advanced Sampling Strategies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples.html#performance-benchmarking">Performance Benchmarking</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#tips-and-best-practices">Tips and Best Practices</a></li>
 </ul>
 </li>
@@ -581,7 +575,6 @@ used with any dataset.</p>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 </div>

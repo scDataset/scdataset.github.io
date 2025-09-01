@@ -258,7 +258,6 @@ document.write(`
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 
@@ -551,7 +550,7 @@ as batching is handled internally by the dataset.</p>
 <span class="n">strategy</span> <span class="o">=</span> <span class="n">Streaming</span><span class="p">()</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 
-<span class="c1"># Sequential access with buffer-level shuffling (like Ray Dataset/WebDataset)</span>
+<span class="c1"># Sequential access with buffer-level shuffling (similar to Ray Dataset/WebDataset)</span>
 <span class="n">strategy</span> <span class="o">=</span> <span class="n">Streaming</span><span class="p">(</span><span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 <span class="c1"># This shuffles batches within each fetch buffer while maintaining</span>
@@ -648,6 +647,7 @@ as batching is handled internally by the dataset.</p>
 
 <span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
     <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">num_workers</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>        <span class="c1"># Multiple workers for parallel loading</span>
     <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span>    <span class="c1"># fetch_factor + 1</span>
 <span class="p">)</span>
