@@ -36,10 +36,11 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="_static/documentation_options.js?v=83a61292"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'quickstart';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
@@ -244,16 +245,27 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Quick Start Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">Data Transforms and Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ddp.html">Distributed &amp; Parallel Training</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="scdataset.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.adata_to_mindex.html">scdataset.transforms.adata_to_mindex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.hf_tahoe_to_tensor.html">scdataset.transforms.hf_tahoe_to_tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.bionemo_to_tensor.html">scdataset.transforms.bionemo_to_tensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockWeightedSampling.html">scdataset.strategy.BlockWeightedSampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.ClassBalancedSampling.html">scdataset.strategy.ClassBalancedSampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.suggest_parameters.html">scdataset.experimental.suggest_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.estimate_sample_size.html">scdataset.experimental.estimate_sample_size</a></li>
 </ul>
 </details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/tahoe_tutorial.html">Quickstart: Using scDataset with the Tahoe-100M Dataset</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
 <ul class="nav bd-sidenav">
@@ -313,7 +325,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -330,7 +342,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/edit/main/docs/source/quickstart.rst" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/edit/main/docs/source/quickstart.rst" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -347,7 +359,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/issues/new?title=Issue%20on%20page%20%2Fquickstart.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/issues/new?title=Issue%20on%20page%20%2Fquickstart.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -483,6 +495,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-different-data-formats">Working with Different Data Formats</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy-arrays">NumPy Arrays</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#anndata-objects">AnnData Objects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#anncollection-multiple-files">AnnCollection (Multiple Files)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#huggingface-datasets">HuggingFace Datasets</a></li>
 </ul>
 </li>
@@ -507,7 +520,7 @@ document.write(`
 <h2>Basic Concepts<a class="headerlink" href="#basic-concepts" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">scDataset</span></code> is built around two main concepts:</p>
 <ol class="arabic simple">
-<li><p><strong>Data Collections</strong>: Any object that supports indexing (<code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>) and length (<code class="docutils literal notranslate"><span class="pre">__len__</span></code>)</p></li>
+<li><p><strong>Data Collections</strong>: Any object that supports default indexing (<code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>) or custom indexing that can be implemented with <code class="docutils literal notranslate"><span class="pre">fetch_callback</span></code></p></li>
 <li><p><strong>Sampling Strategies</strong>: Define how data is sampled and batched</p></li>
 </ol>
 </section>
@@ -522,10 +535,10 @@ document.write(`
 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># 1000 samples, 100 features</span>
 
 <span class="c1"># Create scDataset with streaming strategy</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 
 <span class="c1"># Use with DataLoader (note: batch_size=None)</span>
-<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Batch shape: </span><span class="si">{</span><span class="n">batch</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># (64, 100)</span>
@@ -536,7 +549,7 @@ document.write(`
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Always set <code class="docutils literal notranslate"><span class="pre">batch_size=None</span></code> in the DataLoader when using <code class="docutils literal notranslate"><span class="pre">scDataset</span></code>,
-as batching is handled internally by the dataset.</p>
+as batching is handled internally by <code class="docutils literal notranslate"><span class="pre">scDataset</span></code>.</p>
 </div>
 </section>
 <section id="sampling-strategies">
@@ -550,7 +563,7 @@ as batching is handled internally by the dataset.</p>
 <span class="n">strategy</span> <span class="o">=</span> <span class="n">Streaming</span><span class="p">()</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 
-<span class="c1"># Sequential access with buffer-level shuffling (similar to Ray Dataset/WebDataset)</span>
+<span class="c1"># Sequential access with buffer-level shuffling (similar to Ray Data/WebDataset)</span>
 <span class="n">strategy</span> <span class="o">=</span> <span class="n">Streaming</span><span class="p">(</span><span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 <span class="c1"># This shuffles batches within each fetch buffer while maintaining</span>
@@ -563,7 +576,7 @@ as batching is handled internally by the dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlockShuffling</span>
 
 <span class="c1"># Shuffle in blocks for better I/O while maintaining some randomness</span>
-<span class="n">strategy</span> <span class="o">=</span> <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">strategy</span> <span class="o">=</span> <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -577,7 +590,7 @@ as batching is handled internally by the dataset.</p>
 <span class="n">strategy</span> <span class="o">=</span> <span class="n">BlockWeightedSampling</span><span class="p">(</span>
     <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span>
     <span class="n">total_size</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>  <span class="c1"># Generate 10000 samples per epoch</span>
-    <span class="n">block_size</span><span class="o">=</span><span class="mi">8</span>
+    <span class="n">block_size</span><span class="o">=</span><span class="mi">16</span>
 <span class="p">)</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
 </pre></div>
@@ -625,6 +638,36 @@ as batching is handled internally by the dataset.</p>
 </pre></div>
 </div>
 </section>
+<section id="anncollection-multiple-files">
+<h3>AnnCollection (Multiple Files)<a class="headerlink" href="#anncollection-multiple-files" title="Link to this heading">#</a></h3>
+<p>For large datasets spanning multiple files, use <code class="docutils literal notranslate"><span class="pre">AnnCollection</span></code> with backed mode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">anndata</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ad</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">anndata.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnCollection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">scDataset</span><span class="p">,</span> <span class="n">BlockShuffling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset.transforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">adata_to_mindex</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="c1"># Load multiple AnnData files in backed mode (memory-efficient)</span>
+<span class="n">adatas</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">ad</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="s2">&quot;plate1.h5ad&quot;</span><span class="p">,</span> <span class="n">backed</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">),</span>
+    <span class="n">ad</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="s2">&quot;plate2.h5ad&quot;</span><span class="p">,</span> <span class="n">backed</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+<span class="n">collection</span> <span class="o">=</span> <span class="n">AnnCollection</span><span class="p">(</span><span class="n">adatas</span><span class="p">)</span>
+
+<span class="c1"># Create dataset with adata_to_mindex to materialize backed data</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+    <span class="n">collection</span><span class="p">,</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">fetch_transform</span><span class="o">=</span><span class="n">adata_to_mindex</span>  <span class="c1"># Calls to_adata() internally</span>
+<span class="p">)</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">33</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="examples.html"><span class="doc">Examples</span></a> for a complete AnnCollection pipeline with transforms.</p>
+</section>
 <section id="huggingface-datasets">
 <h3>HuggingFace Datasets<a class="headerlink" href="#huggingface-datasets" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
@@ -637,19 +680,46 @@ as batching is handled internally by the dataset.</p>
 </section>
 <section id="performance-optimization">
 <h2>Performance Optimization<a class="headerlink" href="#performance-optimization" title="Link to this heading">#</a></h2>
-<p>For large datasets, you can optimize performance using these parameters:</p>
+<p>For optimal performance with large datasets, consider these guidelines:</p>
+<p><strong>Automatic Configuration</strong></p>
+<p>Use <a class="reference internal" href="generated/scdataset.experimental.suggest_parameters.html#scdataset.experimental.suggest_parameters" title="scdataset.experimental.suggest_parameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_parameters()</span></code></a> for automatic tuning:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scdataset.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">suggest_parameters</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">suggest_parameters</span><span class="p">(</span><span class="n">data_collection</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>  <span class="c1"># {&#39;fetch_factor&#39;: 64, &#39;block_size&#39;: 32, &#39;num_workers&#39;: 8}</span>
+</pre></div>
+</div>
+<p><strong>Manual Tuning Guidelines</strong></p>
+<ol class="arabic simple">
+<li><p><strong>prefetch_factor</strong>: Set to <code class="docutils literal notranslate"><span class="pre">fetch_factor</span> <span class="pre">+</span> <span class="pre">1</span></code> in DataLoader to trigger the
+next fetch while processing the current one.</p></li>
+<li><p><strong>num_workers</strong>: 4-12 workers typically works well for most systems. Start with
+4 and increase if GPU utilization is low.</p></li>
+<li><p><strong>fetch_factor</strong>: Can be large (e.g., 64, 128, or even 256) if you have enough
+memory. Larger values amortize I/O overhead but increase memory usage.</p></li>
+<li><p><strong>block_size</strong>: Tune based on <code class="docutils literal notranslate"><span class="pre">fetch_factor</span></code> to balance randomness vs throughput:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">block_size</span> <span class="pre">=</span> <span class="pre">fetch_factor</span></code>: Best tradeoff between randomness and throughput</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">block_size</span> <span class="pre">=</span> <span class="pre">fetch_factor</span> <span class="pre">/</span> <span class="pre">2</span></code> or <code class="docutils literal notranslate"><span class="pre">/</span> <span class="pre">4</span></code>: Conservative, good randomness</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">block_size</span> <span class="pre">=</span> <span class="pre">fetch_factor</span> <span class="pre">*</span> <span class="pre">2</span></code>: Higher throughput, less randomness</p></li>
+<li><p>Going beyond the above values has diminishing returns.</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Example Configuration</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">256</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
-    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>  <span class="c1"># Fetch 16 batches at once</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>                 <span class="c1"># Large fetch for efficiency</span>
 <span class="p">)</span>
 
 <span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
     <span class="n">dataset</span><span class="p">,</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">num_workers</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>        <span class="c1"># Multiple workers for parallel loading</span>
-    <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span>    <span class="c1"># fetch_factor + 1</span>
+    <span class="n">num_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>           <span class="c1"># 4-12 workers typically optimal</span>
+    <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">257</span><span class="p">,</span>      <span class="c1"># fetch_factor + 1</span>
+    <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>         <span class="c1"># For GPU training</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -657,13 +727,13 @@ as batching is handled internally by the dataset.</p>
 <section id="data-transforms">
 <h2>Data Transforms<a class="headerlink" href="#data-transforms" title="Link to this heading">#</a></h2>
 <p>You can apply transforms at different stages:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">normalize_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
-    <span class="c1"># Apply per-batch normalization</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">batch</span> <span class="o">-</span> <span class="n">batch</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">batch</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">preprocess_fetch</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">preprocess_fetch</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="c1"># Apply to fetched data before batching</span>
     <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
+    <span class="c1"># Apply per-batch normalization</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">batch</span> <span class="o">-</span> <span class="n">batch</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">batch</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
@@ -742,6 +812,7 @@ as batching is handled internally by the dataset.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-different-data-formats">Working with Different Data Formats</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy-arrays">NumPy Arrays</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#anndata-objects">AnnData Objects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#anncollection-multiple-files">AnnCollection (Multiple Files)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#huggingface-datasets">HuggingFace Datasets</a></li>
 </ul>
 </li>

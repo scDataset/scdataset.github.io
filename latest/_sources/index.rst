@@ -5,9 +5,21 @@ scDataset Documentation
    :target: https://pypi.org/project/scDataset/
    :alt: PyPI version
 
+.. image:: https://static.pepy.tech/personalized-badge/scdataset?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=GREEN&left_text=downloads
+   :target: https://pepy.tech/projects/scdataset
+   :alt: PyPI Downloads
+
+.. image:: https://codecov.io/gh/scDataset/scDataset/branch/main/graph/badge.svg
+   :target: https://codecov.io/gh/scDataset/scDataset
+   :alt: codecov
+
 .. image:: https://img.shields.io/badge/License-MIT-green.svg
    :target: https://opensource.org/licenses/MIT
    :alt: License: MIT
+
+.. image:: https://img.shields.io/badge/docs-scdataset.github.io-blue.svg
+   :target: https://scdataset.github.io/
+   :alt: Documentation
 
 .. image:: https://img.shields.io/badge/arXiv-2506.01883-b31b1b.svg
    :target: https://arxiv.org/abs/2506.01883
@@ -15,7 +27,7 @@ scDataset Documentation
 
 **Scalable Data Loading for Deep Learning on Large-Scale Single-Cell Omics**
 
-.. image:: https://github.com/Kidara/scDataset/raw/main/figures/scdataset.png
+.. image:: https://github.com/scDataset/scDataset/raw/main/figures/scdataset.png
    :alt: scDataset architecture
    :align: center
 
@@ -74,7 +86,15 @@ Basic usage:
    installation
    quickstart
    examples
+   transforms
+   ddp
    scdataset
+   
+.. toctree::
+   :maxdepth: 2
+   :caption: Tutorials:
+   
+   notebooks/tahoe_tutorial
    
 .. toctree::
    :maxdepth: 1

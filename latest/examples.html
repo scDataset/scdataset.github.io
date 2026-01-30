@@ -36,10 +36,11 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="_static/documentation_options.js?v=83a61292"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
@@ -51,7 +52,7 @@
     <link rel="icon" href="https://github.com/scDataset/scDataset/raw/main/figures/scdataset_favicon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API Reference" href="scdataset.html" />
+    <link rel="next" title="Data Transforms and Callbacks" href="transforms.html" />
     <link rel="prev" title="Quick Start Guide" href="quickstart.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -244,16 +245,27 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">Data Transforms and Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ddp.html">Distributed &amp; Parallel Training</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="scdataset.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.adata_to_mindex.html">scdataset.transforms.adata_to_mindex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.hf_tahoe_to_tensor.html">scdataset.transforms.hf_tahoe_to_tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.bionemo_to_tensor.html">scdataset.transforms.bionemo_to_tensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockWeightedSampling.html">scdataset.strategy.BlockWeightedSampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.ClassBalancedSampling.html">scdataset.strategy.ClassBalancedSampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.suggest_parameters.html">scdataset.experimental.suggest_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.estimate_sample_size.html">scdataset.experimental.estimate_sample_size</a></li>
 </ul>
 </details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/tahoe_tutorial.html">Quickstart: Using scDataset with the Tahoe-100M Dataset</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
 <ul class="nav bd-sidenav">
@@ -313,7 +325,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -330,7 +342,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/edit/main/docs/source/examples.rst" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/edit/main/docs/source/examples.rst" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -347,7 +359,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/issues/new?title=Issue%20on%20page%20%2Fexamples.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/issues/new?title=Issue%20on%20page%20%2Fexamples.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -473,6 +485,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-cell-data-analysis">Single-Cell Data Analysis</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-anndata">Working with AnnData</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-anncollection">Working with AnnCollection</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#class-balanced-training">Class-Balanced Training</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-modal-data">Multi-Modal Data</a></li>
 </ul>
@@ -538,13 +551,14 @@ document.write(`
 <span class="c1"># Create dataset with block shuffling</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">adata</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
     <span class="n">fetch_callback</span><span class="o">=</span><span class="n">fetch_anndata</span>
 <span class="p">)</span>
 
 <span class="c1"># Use with DataLoader</span>
-<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing batch of shape: </span><span class="si">{</span><span class="n">batch</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -552,6 +566,165 @@ document.write(`
     <span class="k">break</span>
 </pre></div>
 </div>
+</section>
+<section id="working-with-anncollection">
+<h3>Working with AnnCollection<a class="headerlink" href="#working-with-anncollection" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">AnnCollection</span></code> from <code class="docutils literal notranslate"><span class="pre">anndata.experimental</span></code> allows you to lazily concatenate multiple AnnData
+objects without loading all data into memory. This is particularly useful for large-scale
+single-cell studies spanning multiple files (e.g., different patients, batches, or plates).</p>
+<p><strong>Basic AnnCollection Setup:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">anndata</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ad</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">anndata.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnCollection</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">scDataset</span><span class="p">,</span> <span class="n">BlockShuffling</span><span class="p">,</span> <span class="n">MultiIndexable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="c1"># Load multiple AnnData files (backed mode for memory efficiency)</span>
+<span class="n">file_paths</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;plate_1.h5ad&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;plate_2.h5ad&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;plate_3.h5ad&quot;</span>
+<span class="p">]</span>
+
+<span class="n">adatas</span> <span class="o">=</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">backed</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">file_paths</span><span class="p">]</span>
+
+<span class="c1"># Create AnnCollection for lazy concatenation</span>
+<span class="n">collection</span> <span class="o">=</span> <span class="n">AnnCollection</span><span class="p">(</span><span class="n">adatas</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total cells: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of genes: </span><span class="si">{</span><span class="n">collection</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Complete Pipeline with AnnCollection:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">adata_to_mindex</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform AnnData batch to MultiIndexable.</span>
+
+<span class="sd">    This function handles backed AnnData (lazy loading) by materializing</span>
+<span class="sd">    the data into memory and converting sparse matrices to dense.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batch : AnnData</span>
+<span class="sd">        The fetched AnnData slice from AnnCollection</span>
+<span class="sd">    columns : list of str, optional</span>
+<span class="sd">        Observation columns to include in the output</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    MultiIndexable</span>
+<span class="sd">        Contains &#39;X&#39; (expression matrix) and any requested columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Materialize backed data into memory</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to_adata</span><span class="p">()</span>
+
+    <span class="c1"># Get expression matrix</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">X</span>
+    <span class="k">if</span> <span class="n">sp</span><span class="o">.</span><span class="n">issparse</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+
+    <span class="c1"># Build output dictionary</span>
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">X</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="n">data_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="k">return</span> <span class="n">MultiIndexable</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">to_tensor_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert batch to PyTorch tensors with normalization.&quot;&quot;&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+
+    <span class="c1"># Log normalize</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="c1"># Z-score normalize per gene</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+
+    <span class="c1"># Convert plate labels to integers</span>
+    <span class="n">plate</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;plate&#39;</span><span class="p">]</span>
+    <span class="n">plate_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;plate_1&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;plate_2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;plate_3&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">plate_to_idx</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">plate</span><span class="p">])</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="c1"># Create dataset with transforms</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+    <span class="n">collection</span><span class="p">,</span>
+    <span class="n">strategy</span><span class="o">=</span><span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">fetch_transform</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">adata_to_mindex</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;plate&#39;</span><span class="p">]),</span>
+    <span class="n">batch_transform</span><span class="o">=</span><span class="n">to_tensor_batch</span>
+<span class="p">)</span>
+
+<span class="c1"># Create optimized DataLoader</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>        <span class="c1"># scDataset handles batching</span>
+    <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span>     <span class="c1"># fetch_factor + 1</span>
+    <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span>         <span class="c1"># For GPU training</span>
+<span class="p">)</span>
+
+<span class="c1"># Training loop</span>
+<span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+    <span class="c1"># X: (64, n_genes) normalized tensor</span>
+    <span class="c1"># y: (64,) plate labels</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Batch X: </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, y: </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">break</span>
+</pre></div>
+</div>
+<p><strong>Train/Validation Split with AnnCollection:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="c1"># Get total number of cells</span>
+<span class="n">n_cells</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_cells</span><span class="p">)</span>
+
+<span class="c1"># Split indices</span>
+<span class="n">train_idx</span><span class="p">,</span> <span class="n">val_idx</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">indices</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="c1"># Common transform function</span>
+<span class="n">fetch_fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">adata_to_mindex</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cell_type&#39;</span><span class="p">,</span> <span class="s1">&#39;plate&#39;</span><span class="p">])</span>
+
+<span class="c1"># Training dataset with shuffling</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+    <span class="n">collection</span><span class="p">,</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">fetch_transform</span><span class="o">=</span><span class="n">fetch_fn</span>
+<span class="p">)</span>
+
+<span class="c1"># Validation dataset with streaming (deterministic)</span>
+<span class="n">val_dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+    <span class="n">collection</span><span class="p">,</span>
+    <span class="n">Streaming</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">val_idx</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">fetch_transform</span><span class="o">=</span><span class="n">fetch_fn</span>
+<span class="p">)</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
+<span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Memory-Efficient Tips for AnnCollection:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Use backed mode</strong>: Always load AnnData files with <code class="docutils literal notranslate"><span class="pre">backed='r'</span></code> to avoid loading entire files into memory.</p></li>
+<li><p><strong>Use fetch_transform</strong>: Materialize data in <code class="docutils literal notranslate"><span class="pre">fetch_transform</span></code> rather than <code class="docutils literal notranslate"><span class="pre">batch_transform</span></code> to benefit from larger fetches.</p></li>
+<li><p><strong>Higher fetch_factor</strong>: For backed data, use <code class="docutils literal notranslate"><span class="pre">fetch_factor=16</span></code> or higher to amortize I/O overhead.</p></li>
+<li><p><strong>Block shuffling</strong>: Use <code class="docutils literal notranslate"><span class="pre">BlockShuffling</span></code> with appropriate block size to balance randomness vs I/O efficiency.</p></li>
+</ol>
 </section>
 <section id="class-balanced-training">
 <h3>Class-Balanced Training<a class="headerlink" href="#class-balanced-training" title="Link to this heading">#</a></h3>
@@ -565,12 +738,12 @@ document.write(`
 <span class="n">strategy</span> <span class="o">=</span> <span class="n">ClassBalancedSampling</span><span class="p">(</span>
     <span class="n">cell_types</span><span class="p">,</span>
     <span class="n">total_size</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>  <span class="c1"># Generate 10k balanced samples per epoch</span>
-    <span class="n">block_size</span><span class="o">=</span><span class="mi">8</span>
+    <span class="n">block_size</span><span class="o">=</span><span class="mi">16</span>
 <span class="p">)</span>
 
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">fetch_callback</span><span class="o">=</span><span class="n">fetch_anndata</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">fetch_callback</span><span class="o">=</span><span class="n">fetch_anndata</span><span class="p">)</span>
 
-<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">33</span><span class="p">)</span>
 
 <span class="c1"># Training loop with balanced batches</span>
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
@@ -613,12 +786,13 @@ synchronized during indexing:</p>
 <span class="c1"># Create dataset - all modalities will be indexed together</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">multimodal_data</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">16</span>
 <span class="p">)</span>
 
 <span class="c1"># Use with DataLoader</span>
-<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
     <span class="n">genes</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;genes&#39;</span><span class="p">]</span>        <span class="c1"># Shape: (32, 2000)</span>
@@ -643,7 +817,7 @@ synchronized during indexing:</p>
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">adata</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
     <span class="n">fetch_callback</span><span class="o">=</span><span class="n">fetch_multimodal</span>
 <span class="p">)</span>
@@ -660,9 +834,9 @@ synchronized during indexing:</p>
 <span class="c1"># For very large datasets, use higher fetch factors</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">large_data_collection</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
-    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>  <span class="c1"># Fetch 16 batches worth of data at once</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>  <span class="c1"># Fetch 256 batches worth of data at once</span>
 <span class="p">)</span>
 
 <span class="c1"># Configure DataLoader for optimal performance</span>
@@ -670,8 +844,8 @@ synchronized during indexing:</p>
     <span class="n">dataset</span><span class="p">,</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">num_workers</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>          <span class="c1"># Use multiple workers</span>
-    <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span>      <span class="c1"># fetch_factor + 1</span>
-    <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>        <span class="c1"># For GPU training</span>
+    <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">257</span><span class="p">,</span>     <span class="c1"># fetch_factor + 1</span>
+    <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>         <span class="c1"># For GPU training</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -687,22 +861,24 @@ synchronized during indexing:</p>
 <span class="c1"># Training dataset</span>
 <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">32</span>
 <span class="p">)</span>
 
 <span class="c1"># Validation dataset (streaming for deterministic evaluation)</span>
 <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
     <span class="n">Streaming</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">val_idx</span><span class="p">),</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">32</span>
 <span class="p">)</span>
 
 <span class="c1"># Training loader</span>
-<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">33</span><span class="p">)</span>
 
 <span class="c1"># Validation loader</span>
-<span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">33</span><span class="p">)</span>
 
 <span class="c1"># Training loop</span>
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
@@ -731,7 +907,7 @@ synchronized during indexing:</p>
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
     <span class="n">batch_transform</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">standardize_genes</span><span class="p">(</span><span class="n">log_normalize</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="p">)</span>
@@ -757,7 +933,7 @@ synchronized during indexing:</p>
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
     <span class="n">batch_transform</span><span class="o">=</span><span class="n">augment_batch</span>
 <span class="p">)</span>
@@ -788,10 +964,11 @@ synchronized during indexing:</p>
     <span class="n">hf_dataset</span><span class="p">,</span>
     <span class="n">Streaming</span><span class="p">(),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
     <span class="n">batch_callback</span><span class="o">=</span><span class="n">extract_hf_batch</span>
 <span class="p">)</span>
 
-<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">):</span>
     <span class="c1"># batch will be a dictionary with dataset features</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Batch keys:&quot;</span><span class="p">,</span> <span class="n">batch</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Batch size:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]))</span>
@@ -821,7 +998,7 @@ synchronized during indexing:</p>
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
     <span class="n">hf_dataset</span><span class="p">,</span>
-    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
     <span class="n">batch_callback</span><span class="o">=</span><span class="n">extract_hf_batch</span><span class="p">,</span>
     <span class="n">batch_transform</span><span class="o">=</span><span class="n">process_hf_batch</span>
@@ -852,8 +1029,8 @@ for multi-modal data or features and labels.</p>
 <span class="n">data</span> <span class="o">=</span> <span class="n">MultiIndexable</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">features</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
 
 <span class="c1"># Create dataset</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
-<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
     <span class="n">X_batch</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span>  <span class="c1"># or batch[0]</span>
@@ -941,7 +1118,7 @@ for multi-modal data or features and labels.</p>
         <span class="c1"># Create datasets</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">train_idx</span><span class="p">),</span>
+            <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">train_idx</span><span class="p">),</span>
             <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span>
         <span class="p">)</span>
 
@@ -1002,11 +1179,11 @@ for multi-modal data or features and labels.</p>
       </div>
     </a>
     <a class="right-next"
-       href="scdataset.html"
+       href="transforms.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API Reference</p>
+        <p class="prev-next-title">Data Transforms and Callbacks</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1028,6 +1205,7 @@ for multi-modal data or features and labels.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-cell-data-analysis">Single-Cell Data Analysis</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-anndata">Working with AnnData</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-anncollection">Working with AnnCollection</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#class-balanced-training">Class-Balanced Training</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-modal-data">Multi-Modal Data</a></li>
 </ul>

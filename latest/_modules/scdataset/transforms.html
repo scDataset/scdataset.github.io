@@ -1,0 +1,798 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>scdataset.transforms &#8212; scDataset Documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=83a61292"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/scdataset/transforms';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://scdataset.github.io/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'latest';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="canonical" href="https://scdataset.github.io/_modules/scdataset/transforms.html" />
+    <link rel="icon" href="https://github.com/scDataset/scDataset/raw/main/figures/scdataset_favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="https://github.com/scDataset/scDataset/raw/main/figures/scdataset.png" class="logo__image only-light" alt="scDataset Documentation - Home"/>
+    <script>document.write(`<img src="https://github.com/scDataset/scDataset/raw/main/figures/scdataset.png" class="logo__image only-dark" alt="scDataset Documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transforms.html">Data Transforms and Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ddp.html">Distributed &amp; Parallel Training</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../scdataset.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.transforms.adata_to_mindex.html">scdataset.transforms.adata_to_mindex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.transforms.hf_tahoe_to_tensor.html">scdataset.transforms.hf_tahoe_to_tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.transforms.bionemo_to_tensor.html">scdataset.transforms.bionemo_to_tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.BlockWeightedSampling.html">scdataset.strategy.BlockWeightedSampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.ClassBalancedSampling.html">scdataset.strategy.ClassBalancedSampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.experimental.suggest_parameters.html">scdataset.experimental.suggest_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.experimental.estimate_sample_size.html">scdataset.experimental.estimate_sample_size</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/tahoe_tutorial.html">Quickstart: Using scDataset with the Tahoe-100M Dataset</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/scDataset/scDataset" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/scDataset/scDataset/issues/new?title=Issue%20on%20page%20%2F_modules/scdataset/transforms.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for scdataset.transforms</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Transform functions for scDataset.</span>
+
+<span class="sd">This module provides utility transform functions for common data formats</span>
+<span class="sd">like AnnData/AnnCollection, HuggingFace datasets, and BioNeMo datasets.</span>
+<span class="sd">These transforms can be used as ``fetch_callback``, ``fetch_transform``,</span>
+<span class="sd">``batch_callback``, or ``batch_transform`` arguments in scDataset.</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :toctree: generated/</span>
+
+<span class="sd">   adata_to_mindex</span>
+<span class="sd">   hf_tahoe_to_tensor</span>
+<span class="sd">   bionemo_to_tensor</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;adata_to_mindex&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hf_tahoe_to_tensor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bionemo_to_tensor&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="adata_to_mindex">
+<a class="viewcode-back" href="../../generated/scdataset.transforms.adata_to_mindex.html#scdataset.transforms.adata_to_mindex">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">adata_to_mindex</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform AnnData/AnnCollection batch to MultiIndexable with optional obs columns.</span>
+
+<span class="sd">    This transform converts a batch from an AnnCollection (or backed AnnData)</span>
+<span class="sd">    into a MultiIndexable object containing the expression matrix and optionally</span>
+<span class="sd">    selected observation columns. The MultiIndexable can then be indexed in</span>
+<span class="sd">    subsequent batch operations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batch : AnnData-like</span>
+<span class="sd">        Batch from AnnCollection or backed AnnData. Must have:</span>
+
+<span class="sd">        - ``.to_memory()`` method (for AnnCollection/backed AnnData)</span>
+<span class="sd">        - ``.X`` attribute (expression matrix)</span>
+<span class="sd">        - ``.obs`` attribute (observation metadata)</span>
+
+<span class="sd">    columns : list of str, optional</span>
+<span class="sd">        List of observation column names to include in the output.</span>
+<span class="sd">        If None, only the X matrix is included.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    MultiIndexable</span>
+<span class="sd">        A MultiIndexable object with:</span>
+
+<span class="sd">        - ``&#39;X&#39;``: Dense expression matrix as numpy array</span>
+<span class="sd">        - Additional keys for each column in ``columns`` (as numpy arrays)</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # Basic usage - just X matrix</span>
+<span class="sd">    &gt;&gt;&gt; from scdataset import scDataset, BlockShuffling</span>
+<span class="sd">    &gt;&gt;&gt; from scdataset.transforms import adata_to_mindex</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; dataset = scDataset(</span>
+<span class="sd">    ...     ann_collection,</span>
+<span class="sd">    ...     BlockShuffling(),</span>
+<span class="sd">    ...     batch_size=64,</span>
+<span class="sd">    ...     fetch_transform=adata_to_mindex</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &gt;&gt;&gt; # With observation columns using functools.partial</span>
+<span class="sd">    &gt;&gt;&gt; from functools import partial</span>
+<span class="sd">    &gt;&gt;&gt; fetch_fn = partial(adata_to_mindex, columns=[&#39;cell_type&#39;, &#39;batch&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; dataset = scDataset(</span>
+<span class="sd">    ...     ann_collection,</span>
+<span class="sd">    ...     BlockShuffling(),</span>
+<span class="sd">    ...     batch_size=64,</span>
+<span class="sd">    ...     fetch_transform=fetch_fn</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; for batch in dataset:</span>
+<span class="sd">    ...     X = batch[&#39;X&#39;]</span>
+<span class="sd">    ...     cell_types = batch[&#39;cell_type&#39;]</span>
+<span class="sd">    ...     break</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This transform calls ``.to_memory()`` to materialize the AnnData object,</span>
+<span class="sd">    which is necessary when working with backed or lazy AnnCollection objects.</span>
+
+<span class="sd">    Sparse matrices are automatically converted to dense numpy arrays for</span>
+<span class="sd">    compatibility with standard indexing operations.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    MultiIndexable : Container for synchronized multi-modal data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Import here to avoid circular imports</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.multiindexable</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiIndexable</span>
+
+    <span class="c1"># Import scipy.sparse locally to avoid hard dependency</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Materialize the AnnData batch in memory</span>
+    <span class="c1"># Handle different AnnData-like types:</span>
+    <span class="c1"># - AnnData: use to_memory() if backed</span>
+    <span class="c1"># - AnnCollectionView: use to_adata()</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="s2">&quot;to_adata&quot;</span><span class="p">):</span>
+        <span class="c1"># AnnCollectionView from AnnCollection indexing</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to_adata</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="s2">&quot;to_memory&quot;</span><span class="p">):</span>
+        <span class="c1"># Backed AnnData</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to_memory</span><span class="p">()</span>
+    <span class="c1"># else: already in-memory AnnData, use as-is</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">X</span>
+    <span class="c1"># Densify if X is a sparse matrix</span>
+    <span class="k">if</span> <span class="n">sp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sp</span><span class="o">.</span><span class="n">issparse</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">obs</span>
+
+    <span class="c1"># Create dict with X and all obs columns as numpy arrays</span>
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">X</span><span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="n">data_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="n">multi</span> <span class="o">=</span> <span class="n">MultiIndexable</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">multi</span></div>
+
+
+
+<div class="viewcode-block" id="hf_tahoe_to_tensor">
+<a class="viewcode-back" href="../../generated/scdataset.transforms.hf_tahoe_to_tensor.html#scdataset.transforms.hf_tahoe_to_tensor">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">hf_tahoe_to_tensor</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">num_genes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">62713</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform HuggingFace Tahoe-100M sparse gene expression data to dense tensors.</span>
+
+<span class="sd">    This transform converts sparse gene expression data stored in HuggingFace</span>
+<span class="sd">    format (with separate &#39;genes&#39; and &#39;expressions&#39; arrays) into dense PyTorch</span>
+<span class="sd">    tensors suitable for model training.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batch : dict or list</span>
+<span class="sd">        Batch of data from HuggingFace dataset. Can be:</span>
+
+<span class="sd">        - dict with &#39;genes&#39; and &#39;expressions&#39; keys (list of arrays)</span>
+<span class="sd">        - list of dicts, each with &#39;genes&#39; and &#39;expressions&#39; keys</span>
+
+<span class="sd">    num_genes : int, default=62713</span>
+<span class="sd">        Total number of genes (dimension of output tensor).</span>
+<span class="sd">        Default is the Tahoe-100M gene count.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    torch.Tensor</span>
+<span class="sd">        Dense tensor of shape (batch_size, num_genes) with gene expression values.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # With scDataset</span>
+<span class="sd">    &gt;&gt;&gt; from scdataset import scDataset, BlockShuffling</span>
+<span class="sd">    &gt;&gt;&gt; from scdataset.transforms import hf_tahoe_to_tensor</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; dataset = scDataset(</span>
+<span class="sd">    ...     hf_dataset,</span>
+<span class="sd">    ...     BlockShuffling(),</span>
+<span class="sd">    ...     batch_size=64,</span>
+<span class="sd">    ...     fetch_transform=hf_tahoe_to_tensor</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This transform is specifically designed for datasets like Tahoe-100M that</span>
+<span class="sd">    store sparse gene expression data in HuggingFace Datasets format, where</span>
+<span class="sd">    each sample has variable-length arrays of gene indices and their expression</span>
+<span class="sd">    values.</span>
+
+<span class="sd">    The transform efficiently converts the sparse representation to dense</span>
+<span class="sd">    tensors using numpy operations before converting to PyTorch, which is</span>
+<span class="sd">    faster than building sparse PyTorch tensors directly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="c1"># Extract numpy arrays from batch</span>
+        <span class="n">batch_genes</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;genes&quot;</span><span class="p">]</span>  <span class="c1"># List of numpy arrays</span>
+        <span class="n">batch_expr</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;expressions&quot;</span><span class="p">]</span>  <span class="c1"># List of numpy arrays</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="c1"># Extract numpy arrays from batch</span>
+        <span class="n">batch_genes</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;genes&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+        <span class="n">batch_expr</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;expressions&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Batch must be a dictionary or a list of dictionaries.&quot;</span><span class="p">)</span>
+
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch_genes</span><span class="p">)</span>
+
+    <span class="c1"># Generate batch indices using numpy</span>
+    <span class="n">lengths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">batch_genes</span><span class="p">]</span>
+    <span class="n">batch_indices_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">length</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lengths</span><span class="p">)]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Concatenate all genes and expressions in numpy first</span>
+    <span class="n">gene_indices_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">batch_genes</span><span class="p">)</span>
+    <span class="n">values_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">batch_expr</span><span class="p">)</span>
+
+    <span class="c1"># Single conversion to tensors</span>
+    <span class="n">batch_indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">batch_indices_np</span><span class="p">)</span>
+    <span class="n">gene_indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">gene_indices_np</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">values_np</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+
+    <span class="c1"># Create combined indices tensor</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">batch_indices</span><span class="p">,</span> <span class="n">gene_indices</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Create dense tensor in one assignment</span>
+    <span class="n">dense_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_genes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">dense_tensor</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">values</span>
+
+    <span class="k">return</span> <span class="n">dense_tensor</span></div>
+
+
+
+<div class="viewcode-block" id="bionemo_to_tensor">
+<a class="viewcode-back" href="../../generated/scdataset.transforms.bionemo_to_tensor.html#scdataset.transforms.bionemo_to_tensor">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">bionemo_to_tensor</span><span class="p">(</span>
+    <span class="n">data_collection</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fetch callback for BioNeMo SingleCellMemMapDataset.</span>
+
+<span class="sd">    This callback provides custom indexing logic for BioNeMo&#39;s</span>
+<span class="sd">    SingleCellMemMapDataset, which returns sparse matrices that need</span>
+<span class="sd">    to be collated and densified for use with scDataset.</span>
+
+<span class="sd">    Use this as a ``fetch_callback`` in scDataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_collection : SingleCellMemMapDataset</span>
+<span class="sd">        The BioNeMo dataset to fetch from.</span>
+<span class="sd">    idx : int, slice, sequence, or tensor</span>
+<span class="sd">        Indices to fetch. Can be:</span>
+<span class="sd">        - int: Single index</span>
+<span class="sd">        - slice: Slice object</span>
+<span class="sd">        - list/ndarray/tensor: Batch of indices</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    torch.Tensor</span>
+<span class="sd">        Dense tensor of shape (batch_size, num_genes) with expression values.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from scdataset import scDataset, BlockShuffling</span>
+<span class="sd">    &gt;&gt;&gt; from scdataset.transforms import bionemo_to_tensor</span>
+<span class="sd">    &gt;&gt;&gt; from bionemo.scdl.io.single_cell_memmap_dataset import SingleCellMemMapDataset</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; bionemo_data = SingleCellMemMapDataset(data_path=&#39;/path/to/data&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; dataset = scDataset(</span>
+<span class="sd">    ...     bionemo_data,</span>
+<span class="sd">    ...     BlockShuffling(),</span>
+<span class="sd">    ...     batch_size=64,</span>
+<span class="sd">    ...     fetch_callback=bionemo_to_tensor</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This callback requires the bionemo-scdl package to be installed.</span>
+<span class="sd">    The collate function handles the sparse matrix format used by BioNeMo.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ImportError</span>
+<span class="sd">        If bionemo-scdl is not installed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Import bionemo collate function locally to avoid hard dependency</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">bionemo.scdl.util.torch_dataloader_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">collate_sparse_matrix_batch</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">&quot;bionemo_to_tensor requires the bionemo-scdl package. &quot;</span>
+            <span class="s2">&quot;Install it with: pip install bionemo-scdl&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="c1"># Single index</span>
+        <span class="k">return</span> <span class="n">collate_sparse_matrix_batch</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">data_collection</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">idx</span><span class="p">)]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">to_dense</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+        <span class="c1"># Slice: convert to a list of indices</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">idx</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_collection</span><span class="p">))))</span>
+        <span class="n">batch_tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_collection</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">collate_sparse_matrix_batch</span><span class="p">(</span><span class="n">batch_tensors</span><span class="p">)</span><span class="o">.</span><span class="n">to_dense</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)):</span>
+        <span class="c1"># Batch indexing</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">batch_tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_collection</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">collate_sparse_matrix_batch</span><span class="p">(</span><span class="n">batch_tensors</span><span class="p">)</span><span class="o">.</span><span class="n">to_dense</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported index type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide D'Ascenzo
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Davide D&#39;Ascenzo.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

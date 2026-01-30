@@ -35,10 +35,11 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../../_static/documentation_options.js?v=83a61292"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/scdataset/multiindexable';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
@@ -239,16 +240,27 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transforms.html">Data Transforms and Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ddp.html">Distributed &amp; Parallel Training</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../scdataset.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.transforms.adata_to_mindex.html">scdataset.transforms.adata_to_mindex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.transforms.hf_tahoe_to_tensor.html">scdataset.transforms.hf_tahoe_to_tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.transforms.bionemo_to_tensor.html">scdataset.transforms.bionemo_to_tensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.BlockWeightedSampling.html">scdataset.strategy.BlockWeightedSampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.ClassBalancedSampling.html">scdataset.strategy.ClassBalancedSampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.experimental.suggest_parameters.html">scdataset.experimental.suggest_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.experimental.estimate_sample_size.html">scdataset.experimental.estimate_sample_size</a></li>
 </ul>
 </details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/tahoe_tutorial.html">Quickstart: Using scDataset with the Tahoe-100M Dataset</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
 <ul class="nav bd-sidenav">
@@ -308,7 +320,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -325,7 +337,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/issues/new?title=Issue%20on%20page%20%2F_modules/scdataset/multiindexable.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/issues/new?title=Issue%20on%20page%20%2F_modules/scdataset/multiindexable.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -418,7 +430,8 @@ document.write(`
 <span class="sd">   MultiIndexable</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 
@@ -427,17 +440,21 @@ document.write(`
 <span class="k">class</span><span class="w"> </span><span class="nc">MultiIndexable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for multiple indexable objects that should be indexed together.</span>
-<span class="sd">    </span>
+
 <span class="sd">    This class allows you to group multiple indexable objects (arrays, lists, etc.)</span>
 <span class="sd">    and index them synchronously. It&#39;s particularly useful for scenarios like:</span>
-<span class="sd">    </span>
+
 <span class="sd">    - Multi-modal single-cell data (gene expression + protein data)</span>
 <span class="sd">    - Features and labels (X, y) that need to stay aligned</span>
 <span class="sd">    - Multiple data modalities that share the same sample dimension</span>
-<span class="sd">    </span>
+
 <span class="sd">    The class supports both positional and named access to the contained indexables,</span>
 <span class="sd">    and ensures all indexables have the same length along the first dimension.</span>
-<span class="sd">    </span>
+
+<span class="sd">    Additionally, it supports storing unstructured metadata that is not indexed</span>
+<span class="sd">    but remains accessible after indexing operations. This is useful for keeping</span>
+<span class="sd">    metadata like gene names, dataset info, or other non-sample-aligned data.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    *indexables : indexable objects or dict</span>
@@ -448,29 +465,36 @@ document.write(`
 <span class="sd">        Names for the indexables when using positional arguments.</span>
 <span class="sd">        Must have the same length as the number of indexables.</span>
 <span class="sd">        Cannot be used with dictionary input.</span>
+<span class="sd">    unstructured : dict, optional</span>
+<span class="sd">        Dictionary of non-indexable metadata. This data is preserved unchanged</span>
+<span class="sd">        when the MultiIndexable is indexed/subsetted. Useful for storing</span>
+<span class="sd">        metadata like gene names, dataset descriptions, or configuration.</span>
 <span class="sd">    **named_indexables : dict, optional</span>
 <span class="sd">        Named indexable objects passed as keyword arguments.</span>
 <span class="sd">        Cannot be used together with positional indexables.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    names : list of str or None</span>
 <span class="sd">        Names of the indexables if provided, None otherwise.</span>
 <span class="sd">    count : int</span>
 <span class="sd">        Number of indexables contained in this object.</span>
-<span class="sd">        </span>
+<span class="sd">    unstructured : dict</span>
+<span class="sd">        Dictionary of non-indexable metadata (empty dict if none provided).</span>
+
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        If indexables have different lengths along the first dimension,</span>
 <span class="sd">        or if the number of names doesn&#39;t match the number of indexables.</span>
 <span class="sd">    TypeError</span>
-<span class="sd">        If both positional and keyword indexables are provided.</span>
-<span class="sd">        </span>
+<span class="sd">        If both positional and keyword indexables are provided,</span>
+<span class="sd">        or if unstructured is not a dictionary.</span>
+
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    Create with positional arguments:</span>
-<span class="sd">    </span>
+
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; x = np.random.randn(100, 50)</span>
 <span class="sd">    &gt;&gt;&gt; y = np.random.randint(0, 3, 100)</span>
@@ -479,9 +503,9 @@ document.write(`
 <span class="sd">    100</span>
 <span class="sd">    &gt;&gt;&gt; multi.count</span>
 <span class="sd">    2</span>
-<span class="sd">    </span>
+
 <span class="sd">    Create with dictionary as positional argument:</span>
-<span class="sd">    </span>
+
 <span class="sd">    &gt;&gt;&gt; data_dict = {</span>
 <span class="sd">    ...     &#39;genes&#39;: np.random.randn(100, 2000),</span>
 <span class="sd">    ...     &#39;proteins&#39;: np.random.randn(100, 100)</span>
@@ -490,61 +514,92 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; subset = multi[10:20]  # Get samples 10-19 from both modalities</span>
 <span class="sd">    &gt;&gt;&gt; subset[&#39;genes&#39;].shape</span>
 <span class="sd">    (10, 2000)</span>
-<span class="sd">    </span>
+
 <span class="sd">    Create with keyword arguments:</span>
-<span class="sd">    </span>
+
 <span class="sd">    &gt;&gt;&gt; multi = MultiIndexable(</span>
 <span class="sd">    ...     genes=np.random.randn(100, 2000),</span>
 <span class="sd">    ...     proteins=np.random.randn(100, 100)</span>
 <span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt; multi.names</span>
 <span class="sd">    [&#39;genes&#39;, &#39;proteins&#39;]</span>
-<span class="sd">    </span>
+
+<span class="sd">    Create with unstructured metadata:</span>
+
+<span class="sd">    &gt;&gt;&gt; gene_names = [&#39;Gene_&#39; + str(i) for i in range(2000)]</span>
+<span class="sd">    &gt;&gt;&gt; multi = MultiIndexable(</span>
+<span class="sd">    ...     X=np.random.randn(100, 2000),</span>
+<span class="sd">    ...     unstructured={&#39;gene_names&#39;: gene_names, &#39;dataset_name&#39;: &#39;MyDataset&#39;}</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; multi.unstructured[&#39;gene_names&#39;][:3]</span>
+<span class="sd">    [&#39;Gene_0&#39;, &#39;Gene_1&#39;, &#39;Gene_2&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; subset = multi[10:20]  # Unstructured data is preserved</span>
+<span class="sd">    &gt;&gt;&gt; subset.unstructured[&#39;dataset_name&#39;]</span>
+<span class="sd">    &#39;MyDataset&#39;</span>
+
 <span class="sd">    Access by name or position:</span>
-<span class="sd">    </span>
+
 <span class="sd">    &gt;&gt;&gt; multi = MultiIndexable(x, y, names=[&#39;x&#39;, &#39;y&#39;])</span>
 <span class="sd">    &gt;&gt;&gt; same_x1 = multi[0]      # Access by position</span>
 <span class="sd">    &gt;&gt;&gt; same_x2 = multi[&#39;x&#39;]    # Access by name</span>
 <span class="sd">    &gt;&gt;&gt; np.array_equal(same_x1, same_x2)</span>
 <span class="sd">    True</span>
-<span class="sd">    </span>
+
 <span class="sd">    Use with scDataset:</span>
-<span class="sd">    </span>
+
 <span class="sd">    &gt;&gt;&gt; from scdataset import scDataset, Streaming</span>
 <span class="sd">    &gt;&gt;&gt; dataset = scDataset(multi, Streaming(), batch_size=32)</span>
 <span class="sd">    &gt;&gt;&gt; for batch in dataset:</span>
 <span class="sd">    ...     genes, proteins = batch[0], batch[1]  # or batch[&#39;genes&#39;], batch[&#39;proteins&#39;]</span>
 <span class="sd">    ...     break</span>
-<span class="sd">        </span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    scdataset.scDataset : Main dataset class that can use MultiIndexable objects</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
 <div class="viewcode-block" id="MultiIndexable.__init__">
 <a class="viewcode-back" href="../../generated/scdataset.MultiIndexable.html#scdataset.MultiIndexable.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> 
-        <span class="o">*</span><span class="n">indexables</span><span class="p">,</span> 
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">indexables</span><span class="p">,</span>
         <span class="n">names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">named_indexables</span>
+        <span class="n">unstructured</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">named_indexables</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize MultiIndexable with indexable objects.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Can be initialized in four ways:</span>
 <span class="sd">        1. Positional: MultiIndexable(x, y, z)</span>
-<span class="sd">        2. Positional with names: MultiIndexable(x, y, names=[&#39;x&#39;, &#39;y&#39;])  </span>
+<span class="sd">        2. Positional with names: MultiIndexable(x, y, names=[&#39;x&#39;, &#39;y&#39;])</span>
 <span class="sd">        3. Dictionary as positional: MultiIndexable({&#39;x&#39;: x_data, &#39;y&#39;: y_data})</span>
 <span class="sd">        4. Named keywords: MultiIndexable(x=x_data, y=y_data)</span>
+
+<span class="sd">        All variants support the optional ``unstructured`` parameter for</span>
+<span class="sd">        non-indexable metadata.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Handle different initialization patterns</span>
         <span class="k">if</span> <span class="n">indexables</span> <span class="ow">and</span> <span class="n">named_indexables</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Cannot provide both positional and named indexables&quot;</span><span class="p">)</span>
-        
+
+        <span class="c1"># Validate and store unstructured data</span>
+        <span class="k">if</span> <span class="n">unstructured</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">unstructured</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;unstructured must be a dictionary, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">unstructured</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unstructured</span> <span class="o">=</span> <span class="n">unstructured</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unstructured</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="c1"># Check for single dictionary as positional argument</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indexables</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indexables</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> 
-            <span class="ow">and</span> <span class="ow">not</span> <span class="n">named_indexables</span> <span class="ow">and</span> <span class="n">names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">indexables</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indexables</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">named_indexables</span>
+            <span class="ow">and</span> <span class="n">names</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
             <span class="c1"># Dictionary passed as positional argument</span>
             <span class="n">data_dict</span> <span class="o">=</span> <span class="n">indexables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
@@ -571,22 +626,24 @@ document.write(`
                 <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Must provide at least one indexable object&quot;</span><span class="p">)</span>
-        
+
         <span class="c1"># Validate that all indexables have the same length</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No indexables provided&quot;</span><span class="p">)</span>
-            
+
         <span class="k">try</span><span class="p">:</span>
             <span class="n">first_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;All indexables must support len() operation&quot;</span><span class="p">)</span>
-            
+        <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;All indexables must support len() operation&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">indexable</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">curr_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indexable</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Indexable at position </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> does not support len() operation&quot;</span><span class="p">)</span>
-                
+            <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Indexable at position </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> does not support len() operation&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+
             <span class="k">if</span> <span class="n">curr_len</span> <span class="o">!=</span> <span class="n">first_len</span><span class="p">:</span>
                 <span class="n">name_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; (&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;)&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -595,73 +652,136 @@ document.write(`
                     <span class="sa">f</span><span class="s2">&quot;has length </span><span class="si">{</span><span class="n">curr_len</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="p">)</span></div>
 
-    
+
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Names of the indexables, if provided.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="k">else</span> <span class="kc">None</span>
-    
-    <span class="nd">@property</span> 
+
+    <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of indexables contained in this object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">)</span>
-    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unstructured</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dictionary of non-indexable metadata.</span>
+
+<span class="sd">        This data is preserved unchanged when the MultiIndexable is indexed</span>
+<span class="sd">        or subsetted. Returns the internal dictionary directly for efficiency;</span>
+<span class="sd">        modify with care if you need to preserve the original.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Dictionary containing unstructured metadata.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; multi = MultiIndexable(</span>
+<span class="sd">        ...     X=np.zeros((10, 5)),</span>
+<span class="sd">        ...     unstructured={&#39;gene_names&#39;: [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;]}</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; multi.unstructured[&#39;gene_names&#39;]</span>
+<span class="sd">        [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unstructured</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unstructured_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List of keys in the unstructured metadata dictionary.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of str</span>
+<span class="sd">            Keys present in the unstructured dictionary.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; multi = MultiIndexable(</span>
+<span class="sd">        ...     X=np.zeros((10, 5)),</span>
+<span class="sd">        ...     unstructured={&#39;gene_names&#39;: [&#39;A&#39;, &#39;B&#39;], &#39;dataset&#39;: &#39;test&#39;}</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; multi.unstructured_keys</span>
+<span class="sd">        [&#39;gene_names&#39;, &#39;dataset&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unstructured</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
 <div class="viewcode-block" id="MultiIndexable.__getitem__">
 <a class="viewcode-back" href="../../generated/scdataset.MultiIndexable.html#scdataset.MultiIndexable.__getitem__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Index the MultiIndexable object.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        key : int, str, slice, or array-like</span>
 <span class="sd">            - int: Return the indexable at that position</span>
 <span class="sd">            - str: Return the indexable with that name (if names provided)</span>
 <span class="sd">            - slice/array: Return new MultiIndexable with subsets at those sample indices</span>
-<span class="sd">            </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        object or MultiIndexable</span>
 <span class="sd">            - Single indexable if key is int or str</span>
 <span class="sd">            - New MultiIndexable with subsets if key represents sample indices</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        When subsetting with slices or arrays, the unstructured metadata is</span>
+<span class="sd">        preserved unchanged in the resulting MultiIndexable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="c1"># Return the indexable at position key</span>
             <span class="k">if</span> <span class="n">key</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">key</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">)</span> <span class="o">+</span> <span class="n">key</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">key</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Index </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> out of range for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">)</span><span class="si">}</span><span class="s2"> indexables&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Index </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> out of range for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">)</span><span class="si">}</span><span class="s2"> indexables&quot;</span>
+                <span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-        
+
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="c1"># Return the named indexable</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No named indexables available. Available indices: 0-</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;No named indexables available. Available indices: 0-</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; not found. Available keys: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; not found. Available keys: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-        
+
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Sample indices - return new MultiIndexable with subsets</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">subset_indexables</span> <span class="o">=</span> <span class="p">[</span><span class="n">indexable</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">indexable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">]</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid indices for sample selection: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            
-            <span class="c1"># Preserve names if any</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">MultiIndexable</span><span class="p">(</span><span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">,</span> <span class="n">subset_indexables</span><span class="p">)))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">MultiIndexable</span><span class="p">(</span><span class="o">*</span><span class="n">subset_indexables</span><span class="p">)</span></div>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid indices for sample selection: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
-    
+            <span class="c1"># Preserve names and unstructured data if any</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">MultiIndexable</span><span class="p">(</span>
+                    <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">,</span> <span class="n">subset_indexables</span><span class="p">)),</span>
+                    <span class="n">unstructured</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_unstructured</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unstructured</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">MultiIndexable</span><span class="p">(</span>
+                    <span class="o">*</span><span class="n">subset_indexables</span><span class="p">,</span>
+                    <span class="n">unstructured</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_unstructured</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unstructured</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="MultiIndexable.__len__">
 <a class="viewcode-back" href="../../generated/scdataset.MultiIndexable.html#scdataset.MultiIndexable.__len__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of samples (length of first dimension).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span> <span class="k">else</span> <span class="mi">0</span></div>
 
-    
+
 <div class="viewcode-block" id="MultiIndexable.__repr__">
 <a class="viewcode-back" href="../../generated/scdataset.MultiIndexable.html#scdataset.MultiIndexable.__repr__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -671,22 +791,31 @@ document.write(`
             <span class="n">indexable_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;names=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">indexable_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;count=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;MultiIndexable(</span><span class="si">{</span><span class="n">indexable_info</span><span class="si">}</span><span class="s2">, samples=</span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s2">)&quot;</span></div>
 
-    
+        <span class="c1"># Add unstructured info if present</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unstructured</span><span class="p">:</span>
+            <span class="n">unstructured_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;, unstructured_keys=</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unstructured</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">unstructured_info</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;MultiIndexable(</span><span class="si">{</span><span class="n">indexable_info</span><span class="si">}</span><span class="s2">, samples=</span><span class="si">{</span><span class="n">n_samples</span><span class="si">}{</span><span class="n">unstructured_info</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="MultiIndexable.__iter__">
 <a class="viewcode-back" href="../../generated/scdataset.MultiIndexable.html#scdataset.MultiIndexable.__iter__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over indexables.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">)</span></div>
 
-    
+
 <div class="viewcode-block" id="MultiIndexable.items">
 <a class="viewcode-back" href="../../generated/scdataset.MultiIndexable.html#scdataset.MultiIndexable.items">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Iterate over (name, indexable) pairs.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Yields</span>
 <span class="sd">        ------</span>
 <span class="sd">        tuple</span>
@@ -700,13 +829,13 @@ document.write(`
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">indexable</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">i</span><span class="p">,</span> <span class="n">indexable</span></div>
 
-    
+
 <div class="viewcode-block" id="MultiIndexable.keys">
 <a class="viewcode-back" href="../../generated/scdataset.MultiIndexable.html#scdataset.MultiIndexable.keys">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the names or indices of indexables.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        list</span>
@@ -714,13 +843,13 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indexables</span><span class="p">)))</span></div>
 
-    
+
 <div class="viewcode-block" id="MultiIndexable.values">
 <a class="viewcode-back" href="../../generated/scdataset.MultiIndexable.html#scdataset.MultiIndexable.values">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the indexable objects.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        list</span>

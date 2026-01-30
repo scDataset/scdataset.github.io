@@ -36,10 +36,11 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="_static/documentation_options.js?v=83a61292"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'changelog';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
@@ -243,16 +244,27 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">Data Transforms and Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ddp.html">Distributed &amp; Parallel Training</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="scdataset.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.adata_to_mindex.html">scdataset.transforms.adata_to_mindex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.hf_tahoe_to_tensor.html">scdataset.transforms.hf_tahoe_to_tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.bionemo_to_tensor.html">scdataset.transforms.bionemo_to_tensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockWeightedSampling.html">scdataset.strategy.BlockWeightedSampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.ClassBalancedSampling.html">scdataset.strategy.ClassBalancedSampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.suggest_parameters.html">scdataset.experimental.suggest_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.estimate_sample_size.html">scdataset.experimental.estimate_sample_size</a></li>
 </ul>
 </details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/tahoe_tutorial.html">Quickstart: Using scDataset with the Tahoe-100M Dataset</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
 <ul class="current nav bd-sidenav">
@@ -312,7 +324,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -329,7 +341,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/edit/main/docs/source/changelog.rst" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/edit/main/docs/source/changelog.rst" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -346,7 +358,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/issues/new?title=Issue%20on%20page%20%2Fchangelog.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/issues/new?title=Issue%20on%20page%20%2Fchangelog.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -470,9 +482,16 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">[0.2.0] - 2025-08-28</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes"><strong>Breaking Changes</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">[0.3.0] - 2025-01-30</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#major-features"><strong>Major Features</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes"><strong>Bug Fixes</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#added"><strong>Added</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies"><strong>Dependencies</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">[0.2.0] - 2025-08-28</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes"><strong>Breaking Changes</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3"><strong>Added</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#migration-guide"><strong>Migration Guide</strong></a></li>
 </ul>
 </li>
@@ -490,7 +509,100 @@ document.write(`
   <section id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <section id="id1">
-<h2>[0.2.0] - 2025-08-28<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<h2>[0.3.0] - 2025-01-30<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<section id="major-features">
+<h3><strong>Major Features</strong><a class="headerlink" href="#major-features" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Native DDP support</strong>: Full Distributed Data Parallel support with round-robin
+fetch distribution across ranks. Auto-detects <code class="docutils literal notranslate"><span class="pre">torch.distributed</span></code> settings.</p>
+<ul>
+<li><p>All sampling strategies (Streaming, BlockShuffling, BlockWeightedSampling,
+ClassBalancedSampling) work seamlessly with DDP</p></li>
+<li><p>No <code class="docutils literal notranslate"><span class="pre">DistributedSampler</span></code> needed - partitioning handled internally</p></li>
+</ul>
+</li>
+<li><p><strong>Built-in transform functions</strong> (<code class="docutils literal notranslate"><span class="pre">transforms.py</span></code>):</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">adata_to_mindex()</span></code> - Transform AnnData/AnnCollection to MultiIndexable</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hf_tahoe_to_tensor()</span></code> - Convert HuggingFace sparse data to dense tensors</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bionemo_to_tensor()</span></code> - Convert BioNemo data format to tensors</p></li>
+</ul>
+</li>
+<li><p><strong>Auto-configuration module</strong> (<code class="docutils literal notranslate"><span class="pre">scdataset.experimental.auto_config</span></code>):</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">suggest_parameters()</span></code> - Automatically suggest optimal <code class="docutils literal notranslate"><span class="pre">num_workers</span></code>,
+<code class="docutils literal notranslate"><span class="pre">fetch_factor</span></code>, and <code class="docutils literal notranslate"><span class="pre">block_size</span></code> based on data and system resources</p></li>
+</ul>
+</li>
+<li><p><strong>Training experiments module</strong> (<code class="docutils literal notranslate"><span class="pre">training_experiments/</span></code>): Comprehensive framework
+for benchmarking data loading strategies on the Tahoe-100M dataset</p></li>
+</ul>
+</section>
+<section id="bug-fixes">
+<h3><strong>Bug Fixes</strong><a class="headerlink" href="#bug-fixes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Fixed unsorted indices issue</strong>: Sampling strategies now automatically sort indices
+to ensure optimal I/O performance. When unsorted indices are provided, a warning
+is issued and indices are sorted automatically. This fix addresses issues with
+disk access patterns that could occur when users passed indices in arbitrary order.
+(Thanks to <a class="reference external" href="https://github.com/deto">&#64;deto</a> for reporting this issue)</p></li>
+<li><p><strong>Fixed ClassBalancedSampling with indices</strong>: Class-balanced sampling now correctly
+handles subset indices by computing weights only for the specified subset.
+Previously, when <code class="docutils literal notranslate"><span class="pre">indices</span></code> was provided, weights could mismatch the subset size.</p></li>
+<li><p><strong>Fixed BlockWeightedSampling weights handling with indices</strong>: When both <code class="docutils literal notranslate"><span class="pre">weights</span></code>
+and <code class="docutils literal notranslate"><span class="pre">indices</span></code> are provided, weights are now properly aligned with the subset.
+Supports both full weights (matching data_collection) that get subsetted, and
+pre-subsetted weights (matching indices length).</p></li>
+</ul>
+</section>
+<section id="added">
+<h3><strong>Added</strong><a class="headerlink" href="#added" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Unstructured data support in MultiIndexable</strong>:</p>
+<ul>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">unstructured</span></code> parameter to store non-indexable metadata</p></li>
+<li><p>Useful for storing gene names, dataset info, or other metadata</p></li>
+<li><p>Unstructured data is preserved through subsetting operations</p></li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">unstructured_keys</span></code> property to list available keys</p></li>
+</ul>
+</li>
+<li><p><strong>Jupyter notebook integration in documentation</strong>:</p>
+<ul>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">nbsphinx</span></code> extension for including Jupyter notebooks in docs</p></li>
+<li><p>Tutorial notebook (<code class="docutils literal notranslate"><span class="pre">tahoe_tutorial.ipynb</span></code>) now available in docs</p></li>
+<li><p>Notebooks are rendered without execution for faster builds</p></li>
+</ul>
+</li>
+<li><p><strong>Comprehensive test suite</strong>:</p>
+<ul>
+<li><p>Tests for all strategies, MultiIndexable, scDataset, and auto_config</p></li>
+<li><p>Tests for dict-like interface (items, keys, values) in MultiIndexable</p></li>
+<li><p>Tests for error handling and edge cases</p></li>
+<li><p>Tests for doc code snippets from quickstart guide</p></li>
+</ul>
+</li>
+<li><p><strong>Documentation improvements</strong>:</p>
+<ul>
+<li><p>New transforms guide (<code class="docutils literal notranslate"><span class="pre">transforms.rst</span></code>) documenting <code class="docutils literal notranslate"><span class="pre">fetch_callback</span></code>,
+<code class="docutils literal notranslate"><span class="pre">fetch_transform</span></code>, <code class="docutils literal notranslate"><span class="pre">batch_callback</span></code>, and <code class="docutils literal notranslate"><span class="pre">batch_transform</span></code></p></li>
+<li><p>Comprehensive AnnCollection example in examples</p></li>
+<li><p>Documentation badge added to README and docs</p></li>
+<li><p>Updated benchmarks README with utility documentation</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="dependencies">
+<h3><strong>Dependencies</strong><a class="headerlink" href="#dependencies" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Added optional <code class="docutils literal notranslate"><span class="pre">[auto]</span></code> extras for auto-configuration: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">scDataset[auto]</span></code></p></li>
+<li><p>Added optional <code class="docutils literal notranslate"><span class="pre">[docs]</span></code> extras for documentation building: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">scDataset[docs]</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">[dev]</span></code> extras for development: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">scDataset[dev]</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="id2">
+<h2>[0.2.0] - 2025-08-28<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <section id="breaking-changes">
 <h3><strong>Breaking Changes</strong><a class="headerlink" href="#breaking-changes" title="Link to this heading">#</a></h3>
 <ul class="simple">
@@ -501,8 +613,8 @@ document.write(`
 <li><p><strong>Removed methods</strong>: <code class="docutils literal notranslate"><span class="pre">subset()</span></code>, <code class="docutils literal notranslate"><span class="pre">set_mode()</span></code></p></li>
 </ul>
 </section>
-<section id="added">
-<h3><strong>Added</strong><a class="headerlink" href="#added" title="Link to this heading">#</a></h3>
+<section id="id3">
+<h3><strong>Added</strong><a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Strategy-based sampling system</strong>:</p>
 <ul>
@@ -579,9 +691,16 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">[0.2.0] - 2025-08-28</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes"><strong>Breaking Changes</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">[0.3.0] - 2025-01-30</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#major-features"><strong>Major Features</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes"><strong>Bug Fixes</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#added"><strong>Added</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies"><strong>Dependencies</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">[0.2.0] - 2025-08-28</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes"><strong>Breaking Changes</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3"><strong>Added</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#migration-guide"><strong>Migration Guide</strong></a></li>
 </ul>
 </li>

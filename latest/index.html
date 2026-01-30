@@ -36,10 +36,13 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="_static/documentation_options.js?v=83a61292"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
@@ -245,16 +248,27 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">Data Transforms and Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ddp.html">Distributed &amp; Parallel Training</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="scdataset.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.adata_to_mindex.html">scdataset.transforms.adata_to_mindex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.hf_tahoe_to_tensor.html">scdataset.transforms.hf_tahoe_to_tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.bionemo_to_tensor.html">scdataset.transforms.bionemo_to_tensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockWeightedSampling.html">scdataset.strategy.BlockWeightedSampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.ClassBalancedSampling.html">scdataset.strategy.ClassBalancedSampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.suggest_parameters.html">scdataset.experimental.suggest_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.estimate_sample_size.html">scdataset.experimental.estimate_sample_size</a></li>
 </ul>
 </details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/tahoe_tutorial.html">Quickstart: Using scDataset with the Tahoe-100M Dataset</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
 <ul class="nav bd-sidenav">
@@ -314,7 +328,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -331,7 +345,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/edit/main/docs/source/index.rst" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/edit/main/docs/source/index.rst" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -348,7 +362,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/issues/new?title=Issue%20on%20page%20%2Findex.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/issues/new?title=Issue%20on%20page%20%2Findex.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -491,12 +505,18 @@ document.write(`
 <h1>scDataset Documentation<a class="headerlink" href="#scdataset-documentation" title="Link to this heading">#</a></h1>
 <a class="reference external image-reference" href="https://pypi.org/project/scDataset/"><img alt="PyPI version" src="https://badge.fury.io/py/scDataset.svg" />
 </a>
+<a class="reference external image-reference" href="https://pepy.tech/projects/scdataset"><img alt="PyPI Downloads" src="https://static.pepy.tech/personalized-badge/scdataset?period=total&amp;units=INTERNATIONAL_SYSTEM&amp;left_color=GREY&amp;right_color=GREEN&amp;left_text=downloads" />
+</a>
+<a class="reference external image-reference" href="https://codecov.io/gh/scDataset/scDataset"><img alt="codecov" src="https://codecov.io/gh/scDataset/scDataset/branch/main/graph/badge.svg" />
+</a>
 <a class="reference external image-reference" href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg" />
+</a>
+<a class="reference external image-reference" href="https://scdataset.github.io/"><img alt="Documentation" src="https://img.shields.io/badge/docs-scdataset.github.io-blue.svg" />
 </a>
 <a class="reference external image-reference" href="https://arxiv.org/abs/2506.01883"><img alt="arXiv" src="https://img.shields.io/badge/arXiv-2506.01883-b31b1b.svg" />
 </a>
 <p><strong>Scalable Data Loading for Deep Learning on Large-Scale Single-Cell Omics</strong></p>
-<img alt="scDataset architecture" class="align-center" src="https://github.com/Kidara/scDataset/raw/main/figures/scdataset.png" />
+<img alt="scDataset architecture" class="align-center" src="https://github.com/scDataset/scDataset/raw/main/figures/scdataset.png" />
 <p><code class="docutils literal notranslate"><span class="pre">scDataset</span></code> is a flexible and efficient PyTorch <code class="docutils literal notranslate"><span class="pre">IterableDataset</span></code> for large-scale single-cell omics datasets.
 It supports a variety of data formats (e.g., AnnData, HuggingFace Datasets, NumPy arrays) and is designed for
 high-throughput deep learning workflows. While optimized for single-cell data, it is general-purpose and can be
@@ -563,10 +583,51 @@ used with any dataset.</p>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#tips-and-best-practices">Tips and Best Practices</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">Data Transforms and Callbacks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="transforms.html#built-in-transform-functions">Built-in Transform Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transforms.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transforms.html#the-four-hook-points">The Four Hook Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transforms.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transforms.html#common-use-cases">Common Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transforms.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ddp.html">Distributed &amp; Parallel Training</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#how-ddp-works">How DDP Works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#basic-ddp-setup">Basic DDP Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#manual-rank-configuration">Manual Rank Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#data-partitioning">Data Partitioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#automatic-epoch-handling">Automatic Epoch Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#launching-distributed-training">Launching Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#complete-training-example">Complete Training Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#weighted-sampling-with-ddp">Weighted Sampling with DDP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#ddp-with-any-strategy">DDP with Any Strategy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#dataloader-multiprocessing-num-workers">DataLoader Multiprocessing (num_workers)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#dataparallel-dp-support">DataParallel (DP) Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddp.html#further-reading">Further Reading</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="scdataset.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scdataset.html#main-dataset-class">Main Dataset Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scdataset.html#multi-modal-data-support">Multi-Modal Data Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scdataset.html#transform-functions">Transform Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scdataset.html#sampling-strategies">Sampling Strategies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scdataset.html#experimental-features">Experimental Features</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/tahoe_tutorial.html">Quickstart: Using scDataset with the Tahoe-100M Dataset</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/tahoe_tutorial.html#Downloading-the-Tahoe-100M-h5ad-Files">Downloading the Tahoe-100M h5ad Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/tahoe_tutorial.html#1.-Load-the-Tahoe-100M-Dataset-(h5ad)">1. Load the Tahoe-100M Dataset (h5ad)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/tahoe_tutorial.html#2.-Cell-Line-Recognition-Task-and-Stratified-Split">2. Cell Line Recognition Task and Stratified Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/tahoe_tutorial.html#3.-Wrap-the-AnnCollection-with-scDataset">3. Wrap the AnnCollection with scDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/tahoe_tutorial.html#4.-Train-and-Evaluate-a-Linear-Classifier-for-Cell-Line-Recognition">4. Train and Evaluate a Linear Classifier for Cell Line Recognition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/tahoe_tutorial.html#5.-Summary-and-Next-Steps">5. Summary and Next Steps</a></li>
 </ul>
 </li>
 </ul>

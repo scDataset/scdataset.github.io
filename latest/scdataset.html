@@ -36,10 +36,13 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="_static/documentation_options.js?v=83a61292"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'scdataset';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
@@ -52,7 +55,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="scdataset.scDataset" href="generated/scdataset.scDataset.html" />
-    <link rel="prev" title="Examples" href="examples.html" />
+    <link rel="prev" title="Distributed &amp; Parallel Training" href="ddp.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -244,16 +247,27 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">Data Transforms and Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ddp.html">Distributed &amp; Parallel Training</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.adata_to_mindex.html">scdataset.transforms.adata_to_mindex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.hf_tahoe_to_tensor.html">scdataset.transforms.hf_tahoe_to_tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.bionemo_to_tensor.html">scdataset.transforms.bionemo_to_tensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockWeightedSampling.html">scdataset.strategy.BlockWeightedSampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.ClassBalancedSampling.html">scdataset.strategy.ClassBalancedSampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.suggest_parameters.html">scdataset.experimental.suggest_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.estimate_sample_size.html">scdataset.experimental.estimate_sample_size</a></li>
 </ul>
 </details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/tahoe_tutorial.html">Quickstart: Using scDataset with the Tahoe-100M Dataset</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
 <ul class="nav bd-sidenav">
@@ -313,7 +327,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -330,7 +344,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/edit/main/docs/source/scdataset.rst" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/edit/main/docs/source/scdataset.rst" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -347,7 +361,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/issues/new?title=Issue%20on%20page%20%2Fscdataset.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/issues/new?title=Issue%20on%20page%20%2Fscdataset.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -473,7 +487,9 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-dataset-class">Main Dataset Class</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-modal-data-support">Multi-Modal Data Support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transform-functions">Transform Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-strategies">Sampling Strategies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experimental-features">Experimental Features</a></li>
 </ul>
             </nav>
         </div>
@@ -510,6 +526,23 @@ document.write(`
 </table>
 </div>
 </section>
+<section id="transform-functions">
+<h2>Transform Functions<a class="headerlink" href="#transform-functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scdataset.transforms.adata_to_mindex.html#scdataset.transforms.adata_to_mindex" title="scdataset.transforms.adata_to_mindex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adata_to_mindex</span></code></a></p></td>
+<td><p>Transform AnnData/AnnCollection batch to MultiIndexable with optional obs columns.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scdataset.transforms.hf_tahoe_to_tensor.html#scdataset.transforms.hf_tahoe_to_tensor" title="scdataset.transforms.hf_tahoe_to_tensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hf_tahoe_to_tensor</span></code></a></p></td>
+<td><p>Transform HuggingFace Tahoe-100M sparse gene expression data to dense tensors.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scdataset.transforms.bionemo_to_tensor.html#scdataset.transforms.bionemo_to_tensor" title="scdataset.transforms.bionemo_to_tensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bionemo_to_tensor</span></code></a></p></td>
+<td><p>Fetch callback for BioNeMo SingleCellMemMapDataset.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 <section id="sampling-strategies">
 <h2>Sampling Strategies<a class="headerlink" href="#sampling-strategies" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
@@ -533,6 +566,25 @@ document.write(`
 </table>
 </div>
 </section>
+<section id="experimental-features">
+<h2>Experimental Features<a class="headerlink" href="#experimental-features" title="Link to this heading">#</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Features in the experimental module are subject to change and may be
+modified significantly or removed entirely in future releases.</p>
+</div>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/scdataset.experimental.suggest_parameters.html#scdataset.experimental.suggest_parameters" title="scdataset.experimental.suggest_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">suggest_parameters</span></code></a></p></td>
+<td><p>Suggest optimal parameters for scDataset based on system resources.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/scdataset.experimental.estimate_sample_size.html#scdataset.experimental.estimate_sample_size" title="scdataset.experimental.estimate_sample_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate_sample_size</span></code></a></p></td>
+<td><p>Estimate the memory size of a single sample from the data collection.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 </section>
 
 
@@ -547,12 +599,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="examples.html"
+       href="ddp.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Examples</p>
+        <p class="prev-next-title">Distributed &amp; Parallel Training</p>
       </div>
     </a>
     <a class="right-next"
@@ -582,7 +634,9 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-dataset-class">Main Dataset Class</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-modal-data-support">Multi-Modal Data Support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transform-functions">Transform Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-strategies">Sampling Strategies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experimental-features">Experimental Features</a></li>
 </ul>
   </nav></div>
 

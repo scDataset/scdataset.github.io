@@ -25,6 +25,19 @@ Multi-Modal Data Support
 
    MultiIndexable
 
+Transform Functions
+-------------------
+
+.. currentmodule:: scdataset.transforms
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   adata_to_mindex
+   hf_tahoe_to_tensor
+   bionemo_to_tensor
+
 Sampling Strategies
 -------------------
 
@@ -39,3 +52,20 @@ Sampling Strategies
    BlockShuffling
    BlockWeightedSampling
    ClassBalancedSampling
+
+Experimental Features
+---------------------
+
+.. warning::
+
+   Features in the experimental module are subject to change and may be
+   modified significantly or removed entirely in future releases.
+
+.. currentmodule:: scdataset.experimental
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   suggest_parameters
+   estimate_sample_size

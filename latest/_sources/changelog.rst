@@ -1,6 +1,89 @@
 Changelog
 =========
 
+[0.3.0] - 2025-01-30
+---------------------
+
+**Major Features**
+~~~~~~~~~~~~~~~~~~
+
+* **Native DDP support**: Full Distributed Data Parallel support with round-robin
+  fetch distribution across ranks. Auto-detects ``torch.distributed`` settings.
+  
+  * All sampling strategies (Streaming, BlockShuffling, BlockWeightedSampling, 
+    ClassBalancedSampling) work seamlessly with DDP
+  * No ``DistributedSampler`` needed - partitioning handled internally
+
+* **Built-in transform functions** (``transforms.py``):
+  
+  * ``adata_to_mindex()`` - Transform AnnData/AnnCollection to MultiIndexable
+  * ``hf_tahoe_to_tensor()`` - Convert HuggingFace sparse data to dense tensors
+  * ``bionemo_to_tensor()`` - Convert BioNemo data format to tensors
+
+* **Auto-configuration module** (``scdataset.experimental.auto_config``):
+  
+  * ``suggest_parameters()`` - Automatically suggest optimal ``num_workers``, 
+    ``fetch_factor``, and ``block_size`` based on data and system resources
+
+* **Training experiments module** (``training_experiments/``): Comprehensive framework
+  for benchmarking data loading strategies on the Tahoe-100M dataset
+
+**Bug Fixes**
+~~~~~~~~~~~~~
+
+* **Fixed unsorted indices issue**: Sampling strategies now automatically sort indices
+  to ensure optimal I/O performance. When unsorted indices are provided, a warning
+  is issued and indices are sorted automatically. This fix addresses issues with
+  disk access patterns that could occur when users passed indices in arbitrary order.
+  (Thanks to `@deto <https://github.com/deto>`_ for reporting this issue)
+
+* **Fixed ClassBalancedSampling with indices**: Class-balanced sampling now correctly
+  handles subset indices by computing weights only for the specified subset.
+  Previously, when ``indices`` was provided, weights could mismatch the subset size.
+
+* **Fixed BlockWeightedSampling weights handling with indices**: When both ``weights``
+  and ``indices`` are provided, weights are now properly aligned with the subset.
+  Supports both full weights (matching data_collection) that get subsetted, and
+  pre-subsetted weights (matching indices length).
+
+**Added**
+~~~~~~~~~
+
+* **Unstructured data support in MultiIndexable**:
+  
+  * New ``unstructured`` parameter to store non-indexable metadata
+  * Useful for storing gene names, dataset info, or other metadata
+  * Unstructured data is preserved through subsetting operations
+  * New ``unstructured_keys`` property to list available keys
+
+* **Jupyter notebook integration in documentation**:
+  
+  * Added ``nbsphinx`` extension for including Jupyter notebooks in docs
+  * Tutorial notebook (``tahoe_tutorial.ipynb``) now available in docs
+  * Notebooks are rendered without execution for faster builds
+
+* **Comprehensive test suite**:
+  
+  * Tests for all strategies, MultiIndexable, scDataset, and auto_config
+  * Tests for dict-like interface (items, keys, values) in MultiIndexable
+  * Tests for error handling and edge cases
+  * Tests for doc code snippets from quickstart guide
+
+* **Documentation improvements**:
+  
+  * New transforms guide (``transforms.rst``) documenting ``fetch_callback``,
+    ``fetch_transform``, ``batch_callback``, and ``batch_transform``
+  * Comprehensive AnnCollection example in examples
+  * Documentation badge added to README and docs
+  * Updated benchmarks README with utility documentation
+
+**Dependencies**
+~~~~~~~~~~~~~~~~
+
+* Added optional ``[auto]`` extras for auto-configuration: ``pip install scDataset[auto]``
+* Added optional ``[docs]`` extras for documentation building: ``pip install scDataset[docs]``
+* Added ``[dev]`` extras for development: ``pip install scDataset[dev]``
+
 [0.2.0] - 2025-08-28
 ---------------------
 

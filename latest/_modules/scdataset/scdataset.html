@@ -35,10 +35,11 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../../_static/documentation_options.js?v=83a61292"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/scdataset/scdataset';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
@@ -239,16 +240,27 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transforms.html">Data Transforms and Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ddp.html">Distributed &amp; Parallel Training</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../scdataset.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.transforms.adata_to_mindex.html">scdataset.transforms.adata_to_mindex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.transforms.hf_tahoe_to_tensor.html">scdataset.transforms.hf_tahoe_to_tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.transforms.bionemo_to_tensor.html">scdataset.transforms.bionemo_to_tensor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.BlockWeightedSampling.html">scdataset.strategy.BlockWeightedSampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.strategy.ClassBalancedSampling.html">scdataset.strategy.ClassBalancedSampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.experimental.suggest_parameters.html">scdataset.experimental.suggest_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generated/scdataset.experimental.estimate_sample_size.html">scdataset.experimental.estimate_sample_size</a></li>
 </ul>
 </details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/tahoe_tutorial.html">Quickstart: Using scDataset with the Tahoe-100M Dataset</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
 <ul class="nav bd-sidenav">
@@ -308,7 +320,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset" target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -325,7 +337,7 @@ document.write(`
       
       
       
-      <li><a href="https://github.com/Kidara/scDataset/issues/new?title=Issue%20on%20page%20%2F_modules/scdataset/scdataset.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/scDataset/scDataset/issues/new?title=Issue%20on%20page%20%2F_modules/scdataset/scdataset.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -417,11 +429,11 @@ document.write(`
 <span class="sd">   scDataset</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">IterableDataset</span><span class="p">,</span> <span class="n">get_worker_info</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">SamplingStrategy</span>
 
 
@@ -434,7 +446,7 @@ document.write(`
 <span class="sd">    This dataset implementation provides efficient iteration over large on-disk</span>
 <span class="sd">    data collections using configurable sampling strategies. It supports various</span>
 <span class="sd">    data transformations, custom fetch/batch callbacks, and automatic handling</span>
-<span class="sd">    of multiprocessing workers.</span>
+<span class="sd">    of multiprocessing workers and distributed training (DDP).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -447,25 +459,37 @@ document.write(`
 <span class="sd">        order and selection of samples.</span>
 <span class="sd">    batch_size : int</span>
 <span class="sd">        Number of samples per minibatch. Must be positive.</span>
-<span class="sd">    fetch_factor : int, default=1</span>
+<span class="sd">    fetch_factor : int, default=16</span>
 <span class="sd">        Multiplier for fetch size relative to batch size. Higher values may</span>
 <span class="sd">        improve I/O efficiency by fetching more data at once.</span>
 <span class="sd">    drop_last : bool, default=False</span>
 <span class="sd">        Whether to drop the last incomplete batch if it contains fewer than</span>
 <span class="sd">        ``batch_size`` samples.</span>
-<span class="sd">    fetch_transform : Callable, optional</span>
-<span class="sd">        Function to transform data after fetching but before batching.</span>
-<span class="sd">        Applied to the entire fetch (multiple batches worth of data).</span>
-<span class="sd">    batch_transform : Callable, optional</span>
-<span class="sd">        Function to transform each individual batch before yielding.</span>
 <span class="sd">    fetch_callback : Callable, optional</span>
 <span class="sd">        Custom function to fetch data given indices. Should accept</span>
 <span class="sd">        ``(data_collection, indices)`` and return the fetched data.</span>
 <span class="sd">        If None, uses default indexing (``data_collection[indices]``).</span>
+<span class="sd">    fetch_transform : Callable, optional</span>
+<span class="sd">        Function to transform data after fetching but before batching.</span>
+<span class="sd">        Applied to the entire fetch (multiple batches worth of data).</span>
 <span class="sd">    batch_callback : Callable, optional</span>
 <span class="sd">        Custom function to extract batch data from fetched data.</span>
 <span class="sd">        Should accept ``(fetched_data, batch_indices)`` and return the batch.</span>
 <span class="sd">        If None, uses default indexing (``fetched_data[batch_indices]``).</span>
+<span class="sd">    batch_transform : Callable, optional</span>
+<span class="sd">        Function to transform each individual batch before yielding.</span>
+<span class="sd">    rank : int, optional</span>
+<span class="sd">        Process rank for distributed training (DDP). If None, auto-detects</span>
+<span class="sd">        from torch.distributed if initialized. Defaults to 0 for non-distributed.</span>
+<span class="sd">    world_size : int, optional</span>
+<span class="sd">        Total number of processes for distributed training (DDP). If None,</span>
+<span class="sd">        auto-detects from torch.distributed if initialized. Defaults to 1.</span>
+<span class="sd">    seed : int or None, optional</span>
+<span class="sd">        Base seed for reproducible shuffling. Combined with auto-incrementing</span>
+<span class="sd">        epoch counter to produce different shuffling each epoch while ensuring</span>
+<span class="sd">        reproducibility across runs with the same seed.</span>
+<span class="sd">        If None, a random seed is generated and shared across all DDP ranks</span>
+<span class="sd">        to ensure consistent shuffling while providing variety between runs.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -483,6 +507,10 @@ document.write(`
 <span class="sd">        Total number of samples fetched at once (batch_size * fetch_factor).</span>
 <span class="sd">    sort_before_fetch : bool</span>
 <span class="sd">        Always True. Indices are sorted before fetching for optimal I/O.</span>
+<span class="sd">    rank : int</span>
+<span class="sd">        Process rank for distributed training.</span>
+<span class="sd">    world_size : int</span>
+<span class="sd">        Total number of distributed processes.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
@@ -497,26 +525,35 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; from scdataset import scDataset</span>
 <span class="sd">    &gt;&gt;&gt; from scdataset.strategy import Streaming</span>
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    </span>
+
 <span class="sd">    &gt;&gt;&gt; # Simple streaming dataset</span>
 <span class="sd">    &gt;&gt;&gt; data = np.random.randn(1000, 50)  # 1000 samples, 50 features</span>
 <span class="sd">    &gt;&gt;&gt; strategy = Streaming()</span>
 <span class="sd">    &gt;&gt;&gt; dataset = scDataset(data, strategy, batch_size=32)</span>
 <span class="sd">    &gt;&gt;&gt; len(dataset)  # Number of batches</span>
 <span class="sd">    32</span>
-<span class="sd">    </span>
+
 <span class="sd">    &gt;&gt;&gt; # With custom transforms</span>
 <span class="sd">    &gt;&gt;&gt; def normalize_batch(batch):</span>
 <span class="sd">    ...     return (batch - batch.mean()) / batch.std()</span>
 <span class="sd">    &gt;&gt;&gt; dataset = scDataset(</span>
-<span class="sd">    ...     data, strategy, batch_size=32, </span>
+<span class="sd">    ...     data, strategy, batch_size=32,</span>
 <span class="sd">    ...     batch_transform=normalize_batch</span>
 <span class="sd">    ... )</span>
-<span class="sd">    </span>
+
 <span class="sd">    &gt;&gt;&gt; # Iterate through batches</span>
-<span class="sd">    &gt;&gt;&gt; for batch in dataset:</span>
-<span class="sd">    ...     print(batch.shape)  # (32, 50)</span>
+<span class="sd">    &gt;&gt;&gt; for batch in dataset:  # doctest: +ELLIPSIS</span>
+<span class="sd">    ...     print(batch.shape)</span>
 <span class="sd">    ...     break</span>
+<span class="sd">    (32, 50)</span>
+
+<span class="sd">    &gt;&gt;&gt; # Distributed Data Parallel (DDP) usage</span>
+<span class="sd">    &gt;&gt;&gt; # In DDP training script:</span>
+<span class="sd">    &gt;&gt;&gt; # import torch.distributed as dist</span>
+<span class="sd">    &gt;&gt;&gt; # dist.init_process_group(...)</span>
+<span class="sd">    &gt;&gt;&gt; # dataset = scDataset(data, strategy, batch_size=32)  # Auto-detects DDP</span>
+<span class="sd">    &gt;&gt;&gt; # Or manually specify:</span>
+<span class="sd">    &gt;&gt;&gt; # dataset = scDataset(data, strategy, batch_size=32, rank=0, world_size=4)</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -535,25 +572,34 @@ document.write(`
 <span class="sd">    Data is fetched in chunks of size ``batch_size * fetch_factor`` and then</span>
 <span class="sd">    divided into batches. This can improve I/O efficiency, especially for</span>
 <span class="sd">    datasets where accessing non-contiguous indices is expensive.</span>
+
+<span class="sd">    **DDP Support**: When using Distributed Data Parallel, fetches are distributed</span>
+<span class="sd">    across ranks in round-robin fashion for better load balancing. Each rank</span>
+<span class="sd">    processes every ``world_size``-th fetch, ensuring no data duplication.</span>
+<span class="sd">    Combined with PyTorch DataLoader&#39;s ``num_workers``, this provides two levels</span>
+<span class="sd">    of parallelism: across DDP ranks and across DataLoader workers within each rank.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
 <div class="viewcode-block" id="scDataset.__init__">
 <a class="viewcode-back" href="../../generated/scdataset.scDataset.html#scdataset.scDataset.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> 
-        <span class="n">data_collection</span><span class="p">,</span> 
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data_collection</span><span class="p">,</span>
         <span class="n">strategy</span><span class="p">:</span> <span class="n">SamplingStrategy</span><span class="p">,</span>
-        <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> 
-        <span class="n">fetch_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> 
+        <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">fetch_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
         <span class="n">drop_last</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">fetch_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+        <span class="n">fetch_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fetch_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">batch_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">batch_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">fetch_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
-        <span class="n">batch_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">rank</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">world_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the scDataset.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        data_collection : object</span>
@@ -566,25 +612,31 @@ document.write(`
 <span class="sd">            Positive integer for fetch size multiplier.</span>
 <span class="sd">        drop_last : bool, default=False</span>
 <span class="sd">            Whether to drop incomplete batches.</span>
-<span class="sd">        fetch_transform : Callable, optional</span>
-<span class="sd">            Transform applied to fetched data.</span>
-<span class="sd">        batch_transform : Callable, optional</span>
-<span class="sd">            Transform applied to each batch.</span>
 <span class="sd">        fetch_callback : Callable, optional</span>
 <span class="sd">            Custom fetch function.</span>
+<span class="sd">        fetch_transform : Callable, optional</span>
+<span class="sd">            Transform applied to fetched data.</span>
 <span class="sd">        batch_callback : Callable, optional</span>
 <span class="sd">            Custom batch extraction function.</span>
+<span class="sd">        batch_transform : Callable, optional</span>
+<span class="sd">            Transform applied to each batch.</span>
+<span class="sd">        rank : int, optional</span>
+<span class="sd">            Process rank for DDP. Auto-detected if None.</span>
+<span class="sd">        world_size : int, optional</span>
+<span class="sd">            Number of DDP processes. Auto-detected if None.</span>
+<span class="sd">        seed : int or None, optional</span>
+<span class="sd">            Base seed for reproducible shuffling. If None, generates a random</span>
+<span class="sd">            seed shared across DDP ranks for consistent shuffling. Combined</span>
+<span class="sd">            with auto-incrementing epoch counter for different shuffling each epoch.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Input validation</span>
         <span class="k">if</span> <span class="n">batch_size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;batch_size must be positive&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">fetch_factor</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;fetch_factor must be positive&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data_collection</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data_collection</span><span class="p">,</span> <span class="s1">&#39;__getitem__&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;data_collection must support indexing and len()&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">SamplingStrategy</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;strategy must be an instance of SamplingStrategy&quot;</span><span class="p">)</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="n">data_collection</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">strategy</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
@@ -592,83 +644,222 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">drop_last</span> <span class="o">=</span> <span class="n">drop_last</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fetch_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_factor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sort_before_fetch</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Always sort before fetch as per new design</span>
-        
-        <span class="c1"># Store callback functions</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fetch_transform</span> <span class="o">=</span> <span class="n">fetch_transform</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">batch_transform</span> <span class="o">=</span> <span class="n">batch_transform</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fetch_callback</span> <span class="o">=</span> <span class="n">fetch_callback</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">batch_callback</span> <span class="o">=</span> <span class="n">batch_callback</span></div>
 
-        
+        <span class="c1"># Store callback functions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fetch_callback</span> <span class="o">=</span> <span class="n">fetch_callback</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fetch_transform</span> <span class="o">=</span> <span class="n">fetch_transform</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_callback</span> <span class="o">=</span> <span class="n">batch_callback</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_transform</span> <span class="o">=</span> <span class="n">batch_transform</span>
+
+        <span class="c1"># DDP support with auto-detection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">world_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_ddp</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">world_size</span><span class="p">)</span>
+
+        <span class="c1"># Epoch counter for reproducible shuffling - auto-increments each iteration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_epoch</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Base seed for deterministic shuffling sequences</span>
+        <span class="c1"># If None, generate random seed shared across DDP ranks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_init_seed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize or generate the base seed for shuffling.</span>
+
+<span class="sd">        If a seed is provided, use it directly. If None, generate a random</span>
+<span class="sd">        seed and broadcast it from rank 0 to all other ranks to ensure</span>
+<span class="sd">        consistent shuffling across DDP processes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        seed : int or None</span>
+<span class="sd">            Explicit seed, or None to generate a random shared seed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The seed to use for shuffling.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">seed</span>
+
+        <span class="c1"># Generate random seed - will be shared across ranks</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+        <span class="c1"># Single process: just generate random seed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">world_size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+        <span class="c1"># Multi-process DDP: broadcast seed from rank 0</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="ow">and</span> <span class="n">dist</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;world_size=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">world_size</span><span class="si">}</span><span class="s2"> but torch.distributed is not initialized. &quot;</span>
+                <span class="s2">&quot;Please call torch.distributed.init_process_group() before creating the dataset.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Rank 0 generates seed and broadcasts to all ranks</span>
+        <span class="c1"># Use device-appropriate tensor for the backend (NCCL needs CUDA tensors)</span>
+        <span class="n">backend</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;nccl&quot;</span> <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cuda:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">seed_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">seed_tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># gloo and other backends work with CPU tensors</span>
+            <span class="n">seed_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">seed_tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+        <span class="n">dist</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">seed_tensor</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">seed_tensor</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_ddp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rank</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">world_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Detect or validate DDP settings.</span>
+
+<span class="sd">        Auto-detects from torch.distributed if available and initialized,</span>
+<span class="sd">        otherwise defaults to single-process settings.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rank : int or None</span>
+<span class="sd">            Explicit rank, or None for auto-detection.</span>
+<span class="sd">        world_size : int or None</span>
+<span class="sd">            Explicit world_size, or None for auto-detection.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            (rank, world_size) tuple.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+
+            <span class="k">if</span> <span class="n">dist</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="ow">and</span> <span class="n">dist</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
+                <span class="n">detected_rank</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span>
+                <span class="n">detected_world_size</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">get_world_size</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">detected_rank</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">detected_world_size</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="n">detected_rank</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">detected_world_size</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="n">final_rank</span> <span class="o">=</span> <span class="n">rank</span> <span class="k">if</span> <span class="n">rank</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">detected_rank</span>
+        <span class="n">final_world_size</span> <span class="o">=</span> <span class="n">world_size</span> <span class="k">if</span> <span class="n">world_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">detected_world_size</span>
+
+        <span class="k">return</span> <span class="n">final_rank</span><span class="p">,</span> <span class="n">final_world_size</span>
+
 <div class="viewcode-block" id="scDataset.__len__">
 <a class="viewcode-back" href="../../generated/scdataset.scDataset.html#scdataset.scDataset.__len__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the number of batches in the dataset.</span>
-<span class="sd">        </span>
+<span class="sd">        Return the number of batches in the dataset for this rank.</span>
+
 <span class="sd">        Calculates the number of batches that will be yielded by the iterator</span>
-<span class="sd">        based on the sampling strategy&#39;s effective length and the batch size.</span>
-<span class="sd">        </span>
+<span class="sd">        based on the sampling strategy&#39;s effective length, batch size, and</span>
+<span class="sd">        the number of DDP ranks (if using distributed training).</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        int</span>
-<span class="sd">            Number of batches in the dataset.</span>
-<span class="sd">            </span>
+<span class="sd">            Number of batches in the dataset for this rank.</span>
+
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; from scdataset.strategy import Streaming</span>
 <span class="sd">        &gt;&gt;&gt; dataset = scDataset(range(100), Streaming(), batch_size=10)</span>
 <span class="sd">        &gt;&gt;&gt; len(dataset)</span>
 <span class="sd">        10</span>
-<span class="sd">        </span>
+
 <span class="sd">        &gt;&gt;&gt; # With drop_last=True</span>
 <span class="sd">        &gt;&gt;&gt; dataset = scDataset(range(105), Streaming(), batch_size=10, drop_last=True)</span>
 <span class="sd">        &gt;&gt;&gt; len(dataset)  # 105 // 10 = 10 (drops 5 samples)</span>
 <span class="sd">        10</span>
-<span class="sd">        </span>
+
 <span class="sd">        &gt;&gt;&gt; # With drop_last=False (default)</span>
 <span class="sd">        &gt;&gt;&gt; dataset = scDataset(range(105), Streaming(), batch_size=10, drop_last=False)</span>
 <span class="sd">        &gt;&gt;&gt; len(dataset)  # ceil(105 / 10) = 11</span>
 <span class="sd">        11</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        When ``drop_last=True``, only complete batches are counted.</span>
 <span class="sd">        When ``drop_last=False``, the last incomplete batch is included in the count.</span>
+
+<span class="sd">        When using DDP (``world_size &gt; 1``), the returned length is the number</span>
+<span class="sd">        of batches this specific rank will process, which is approximately</span>
+<span class="sd">        ``total_batches / world_size``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Get the total number of samples from the sampling strategy</span>
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span><span class="o">.</span><span class="n">get_len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="p">)</span>
-        
+
+        <span class="c1"># Calculate total fetches and per-rank fetches</span>
+        <span class="n">fetch_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_size</span>
+        <span class="n">num_fetches</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="n">fetch_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">fetch_size</span>
+
+        <span class="c1"># Round-robin distribution: this rank gets fetches at positions</span>
+        <span class="c1"># rank, rank + world_size, rank + 2*world_size, ...</span>
+        <span class="n">rank_fetch_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span> <span class="n">num_fetches</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">world_size</span><span class="p">))</span>
+
+        <span class="c1"># Check if this rank gets any fetches</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rank_fetch_ids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="c1"># Calculate exact number of samples for this rank</span>
+        <span class="n">per_rank_samples</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">fetch_id</span> <span class="ow">in</span> <span class="n">rank_fetch_ids</span><span class="p">:</span>
+            <span class="n">fetch_start</span> <span class="o">=</span> <span class="n">fetch_id</span> <span class="o">*</span> <span class="n">fetch_size</span>
+            <span class="n">fetch_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">fetch_id</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">fetch_size</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">per_rank_samples</span> <span class="o">+=</span> <span class="n">fetch_end</span> <span class="o">-</span> <span class="n">fetch_start</span>
+
+        <span class="c1"># Calculate batches from samples, accounting for drop_last</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_last</span><span class="p">:</span>
-            <span class="c1"># When dropping the last incomplete batch, calculate based on complete batches only</span>
-            <span class="k">return</span> <span class="n">n</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span>
+            <span class="c1"># Each fetch may have leftover samples that don&#39;t form a complete batch</span>
+            <span class="c1"># We need to count batches per fetch, not total samples</span>
+            <span class="n">num_batches</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">fetch_id</span> <span class="ow">in</span> <span class="n">rank_fetch_ids</span><span class="p">:</span>
+                <span class="n">fetch_start</span> <span class="o">=</span> <span class="n">fetch_id</span> <span class="o">*</span> <span class="n">fetch_size</span>
+                <span class="n">fetch_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">fetch_id</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">fetch_size</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+                <span class="n">fetch_samples</span> <span class="o">=</span> <span class="n">fetch_end</span> <span class="o">-</span> <span class="n">fetch_start</span>
+                <span class="n">num_batches</span> <span class="o">+=</span> <span class="n">fetch_samples</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span>
+            <span class="k">return</span> <span class="n">num_batches</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># When keeping the last incomplete batch, round up</span>
-            <span class="k">return</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span></div>
+            <span class="c1"># Each fetch yields ceil(fetch_samples / batch_size) batches</span>
+            <span class="n">num_batches</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">fetch_id</span> <span class="ow">in</span> <span class="n">rank_fetch_ids</span><span class="p">:</span>
+                <span class="n">fetch_start</span> <span class="o">=</span> <span class="n">fetch_id</span> <span class="o">*</span> <span class="n">fetch_size</span>
+                <span class="n">fetch_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">fetch_id</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">fetch_size</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+                <span class="n">fetch_samples</span> <span class="o">=</span> <span class="n">fetch_end</span> <span class="o">-</span> <span class="n">fetch_start</span>
+                <span class="n">num_batches</span> <span class="o">+=</span> <span class="p">(</span><span class="n">fetch_samples</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span>
+            <span class="k">return</span> <span class="n">num_batches</span></div>
 
 
-        
 <div class="viewcode-block" id="scDataset.__iter__">
 <a class="viewcode-back" href="../../generated/scdataset.scDataset.html#scdataset.scDataset.__iter__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yield batches of data according to the sampling strategy.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Creates an iterator that yields batches of data by:</span>
-<span class="sd">        </span>
-<span class="sd">        1. Getting indices from the sampling strategy</span>
+
+<span class="sd">        1. Getting indices from the sampling strategy (same across all DDP ranks)</span>
 <span class="sd">        2. Dividing indices into fetch ranges</span>
-<span class="sd">        3. Distributing fetch ranges among workers (if multiprocessing)</span>
-<span class="sd">        4. Fetching data in chunks and applying fetch transforms</span>
-<span class="sd">        5. Dividing fetched data into batches and applying batch transforms</span>
-<span class="sd">        6. Yielding transformed batches</span>
-<span class="sd">        </span>
+<span class="sd">        3. Distributing fetch ranges among DDP ranks (round-robin)</span>
+<span class="sd">        4. Further distributing among DataLoader workers (if multiprocessing)</span>
+<span class="sd">        5. Fetching data in chunks and applying fetch transforms</span>
+<span class="sd">        6. Dividing fetched data into batches and applying batch transforms</span>
+<span class="sd">        7. Yielding transformed batches</span>
+
 <span class="sd">        Yields</span>
 <span class="sd">        ------</span>
 <span class="sd">        object</span>
 <span class="sd">            Batches of data after applying all transforms. The exact type</span>
 <span class="sd">            depends on the data collection and any applied transforms.</span>
-<span class="sd">            </span>
+
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; from scdataset.strategy import Streaming</span>
@@ -682,39 +873,67 @@ document.write(`
 <span class="sd">        Batch 0: shape (5, 10)</span>
 <span class="sd">        Batch 1: shape (5, 10)</span>
 <span class="sd">        Batch 2: shape (5, 10)</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
-<span class="sd">        -----        </span>
+<span class="sd">        -----</span>
 <span class="sd">        The fetch-then-batch approach can improve I/O efficiency by:</span>
-<span class="sd">        </span>
+
 <span class="sd">        - Sorting indices before fetching for better disk access patterns</span>
 <span class="sd">        - Fetching multiple batches worth of data at once</span>
 <span class="sd">        - Reducing the number of data access operations</span>
-<span class="sd">        </span>
+
 <span class="sd">        Shuffling behavior is controlled by the sampling strategy&#39;s</span>
 <span class="sd">        ``_shuffle_before_yield`` attribute.</span>
+
+<span class="sd">        **DDP Distribution**: When using multiple ranks (``world_size &gt; 1``),</span>
+<span class="sd">        fetches are distributed in round-robin fashion. Rank 0 gets fetches</span>
+<span class="sd">        0, world_size, 2*world_size, etc. Rank 1 gets fetches 1, world_size+1,</span>
+<span class="sd">        2*world_size+1, etc. This ensures even load distribution and that</span>
+<span class="sd">        all data is processed exactly once across all ranks.</span>
+
+<span class="sd">        **Auto-incrementing epoch**: The epoch counter automatically increments</span>
+<span class="sd">        each time the dataset is iterated. This ensures different shuffling</span>
+<span class="sd">        each epoch without requiring manual ``set_epoch()`` calls.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">worker_info</span> <span class="o">=</span> <span class="n">get_worker_info</span><span class="p">()</span>
-        
-        <span class="c1"># Generate seed for sampling strategy</span>
-        <span class="k">if</span> <span class="n">worker_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">worker_info</span><span class="o">.</span><span class="n">seed</span> <span class="o">-</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
-        <span class="c1"># Get indices from sampling strategy</span>
-        <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span><span class="o">.</span><span class="n">get_indices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-        
+        <span class="c1"># Generate seed for sampling strategy - combine base_seed with epoch</span>
+        <span class="c1"># All ranks use the same seed for consistent global ordering</span>
+        <span class="c1"># epoch * 1000 provides sufficient separation between epochs</span>
+        <span class="n">current_seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_seed</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epoch</span> <span class="o">*</span> <span class="mi">1000</span>
+
+        <span class="c1"># Auto-increment epoch for next iteration (different shuffling each epoch)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_epoch</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">worker_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">current_seed</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># All workers use the same seed for consistent global ordering</span>
+            <span class="c1"># (they partition work, not randomness)</span>
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">current_seed</span><span class="p">)</span>
+
+        <span class="c1"># Get indices from sampling strategy - same ordering across all ranks</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span><span class="o">.</span><span class="n">get_indices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">current_seed</span><span class="p">)</span>
+
         <span class="c1"># Calculate fetch ranges</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
         <span class="n">fetch_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_size</span>
         <span class="n">num_fetches</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="n">fetch_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">fetch_size</span>
-        <span class="n">fetch_ranges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span> <span class="o">*</span> <span class="n">fetch_size</span><span class="p">,</span> <span class="nb">min</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">fetch_size</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_fetches</span><span class="p">)]</span>
-        
-        <span class="c1"># Handle multiprocessing by distributing fetch ranges among workers</span>
-        <span class="k">if</span> <span class="n">worker_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">per_worker</span> <span class="o">=</span> <span class="n">num_fetches</span> <span class="o">//</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">num_workers</span>
-            <span class="n">remainder</span> <span class="o">=</span> <span class="n">num_fetches</span> <span class="o">%</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">num_workers</span>
+
+        <span class="c1"># DDP: Distribute fetches among ranks in round-robin fashion</span>
+        <span class="c1"># This rank gets fetches: rank, rank + world_size, rank + 2*world_size, ...</span>
+        <span class="n">rank_fetch_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span> <span class="n">num_fetches</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">world_size</span><span class="p">))</span>
+
+        <span class="c1"># Build fetch ranges for this rank only</span>
+        <span class="n">fetch_ranges</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">fetch_size</span><span class="p">,</span> <span class="nb">min</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">fetch_size</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rank_fetch_ids</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Handle DataLoader multiprocessing by distributing fetch ranges among workers</span>
+        <span class="k">if</span> <span class="n">worker_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">fetch_ranges</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">num_rank_fetches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fetch_ranges</span><span class="p">)</span>
+            <span class="n">per_worker</span> <span class="o">=</span> <span class="n">num_rank_fetches</span> <span class="o">//</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">num_workers</span>
+            <span class="n">remainder</span> <span class="o">=</span> <span class="n">num_rank_fetches</span> <span class="o">%</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">num_workers</span>
             <span class="k">if</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">id</span> <span class="o">&lt;</span> <span class="n">remainder</span><span class="p">:</span>
                 <span class="n">start</span> <span class="o">=</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">id</span> <span class="o">*</span> <span class="p">(</span><span class="n">per_worker</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">per_worker</span> <span class="o">+</span> <span class="mi">1</span>
@@ -722,7 +941,7 @@ document.write(`
                 <span class="n">start</span> <span class="o">=</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">id</span> <span class="o">*</span> <span class="n">per_worker</span> <span class="o">+</span> <span class="n">remainder</span>
                 <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">per_worker</span>
             <span class="n">fetch_ranges</span> <span class="o">=</span> <span class="n">fetch_ranges</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
-        
+
         <span class="c1"># Process each fetch range</span>
         <span class="k">for</span> <span class="n">fetch_start</span><span class="p">,</span> <span class="n">fetch_end</span> <span class="ow">in</span> <span class="n">fetch_ranges</span><span class="p">:</span>
             <span class="n">fetch_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">fetch_start</span><span class="p">:</span><span class="n">fetch_end</span><span class="p">]</span>
@@ -743,29 +962,29 @@ document.write(`
                 <span class="n">shuffle_indices</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fetch_indices</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">shuffle_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fetch_indices</span><span class="p">))</span>
-            
+
             <span class="c1"># Yield batches</span>
             <span class="n">batch_start</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">while</span> <span class="n">batch_start</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">fetch_indices</span><span class="p">):</span>
                 <span class="n">batch_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">batch_start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fetch_indices</span><span class="p">))</span>
-                
+
                 <span class="c1"># Handle drop_last</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_last</span> <span class="ow">and</span> <span class="p">(</span><span class="n">batch_end</span> <span class="o">-</span> <span class="n">batch_start</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">:</span>
                     <span class="k">break</span>
-                
+
                 <span class="c1"># Get batch indices</span>
                 <span class="n">batch_indices</span> <span class="o">=</span> <span class="n">shuffle_indices</span><span class="p">[</span><span class="n">batch_start</span><span class="p">:</span><span class="n">batch_end</span><span class="p">]</span>
-                
+
                 <span class="c1"># Use custom batch callback if provided, otherwise use default indexing</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">batch_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_callback</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">batch_indices</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">batch_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">batch_indices</span><span class="p">]</span>
-                
+
                 <span class="c1"># Call batch transform if provided</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">batch_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_transform</span><span class="p">(</span><span class="n">batch_data</span><span class="p">)</span>
-                    
+
                 <span class="k">yield</span> <span class="n">batch_data</span>
                 <span class="n">batch_start</span> <span class="o">=</span> <span class="n">batch_end</span></div>
 </div>
