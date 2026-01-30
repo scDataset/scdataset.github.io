@@ -1,0 +1,1140 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Distributed &amp; Parallel Training &#8212; scDataset Documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=83a61292"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ddp';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://scdataset.github.io/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'stable';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="canonical" href="https://scdataset.github.io/ddp.html" />
+    <link rel="icon" href="https://github.com/scDataset/scDataset/raw/main/figures/scdataset_favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="scdataset.html" />
+    <link rel="prev" title="Data Transforms and Callbacks" href="transforms.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="https://github.com/scDataset/scDataset/raw/main/figures/scdataset.png" class="logo__image only-light" alt="scDataset Documentation - Home"/>
+    <script>document.write(`<img src="https://github.com/scDataset/scDataset/raw/main/figures/scdataset.png" class="logo__image only-dark" alt="scDataset Documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">Data Transforms and Callbacks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Distributed &amp; Parallel Training</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="scdataset.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.scDataset.html">scdataset.scDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.MultiIndexable.html">scdataset.MultiIndexable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.adata_to_mindex.html">scdataset.transforms.adata_to_mindex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.hf_tahoe_to_tensor.html">scdataset.transforms.hf_tahoe_to_tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.transforms.bionemo_to_tensor.html">scdataset.transforms.bionemo_to_tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.SamplingStrategy.html">scdataset.strategy.SamplingStrategy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.Streaming.html">scdataset.strategy.Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockShuffling.html">scdataset.strategy.BlockShuffling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.BlockWeightedSampling.html">scdataset.strategy.BlockWeightedSampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.strategy.ClassBalancedSampling.html">scdataset.strategy.ClassBalancedSampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.suggest_parameters.html">scdataset.experimental.suggest_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/scdataset.experimental.estimate_sample_size.html">scdataset.experimental.estimate_sample_size</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/tahoe_tutorial.html">Quickstart: Using scDataset with the Tahoe-100M Dataset</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/scDataset/scDataset" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/scDataset/scDataset/edit/main/docs/source/ddp.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/scDataset/scDataset/issues/new?title=Issue%20on%20page%20%2Fddp.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/ddp.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Distributed & Parallel Training</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ddp-works">How DDP Works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-ddp-setup">Basic DDP Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-rank-configuration">Manual Rank Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-partitioning">Data Partitioning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-epoch-handling">Automatic Epoch Handling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#launching-distributed-training">Launching Distributed Training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-training-example">Complete Training Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-sampling-with-ddp">Weighted Sampling with DDP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ddp-with-any-strategy">DDP with Any Strategy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataloader-multiprocessing-num-workers">DataLoader Multiprocessing (num_workers)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataparallel-dp-support">DataParallel (DP) Support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">Further Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="distributed-parallel-training">
+<h1>Distributed &amp; Parallel Training<a class="headerlink" href="#distributed-parallel-training" title="Link to this heading">#</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 0.3.0.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">scDataset</span></code> provides native support for distributed and parallel training with
+PyTorch. All three parallel/distributed modalities work automatically and are
+handled internally by <code class="docutils literal notranslate"><span class="pre">scDataset</span></code>:</p>
+<ul class="simple">
+<li><p><strong>DataLoader multiprocessing</strong>: <code class="docutils literal notranslate"><span class="pre">num_workers</span></code> for parallel data loading</p></li>
+<li><p><strong>DataParallel (DP)</strong>: Simple multi-GPU on single node</p></li>
+<li><p><strong>DistributedDataParallel (DDP)</strong>: Multi-GPU, multi-node training</p></li>
+</ul>
+<p>No special configuration is required, <code class="docutils literal notranslate"><span class="pre">scDataset</span></code> auto-detects the training
+environment and partitions data appropriately.</p>
+<section id="how-ddp-works">
+<h2>How DDP Works<a class="headerlink" href="#how-ddp-works" title="Link to this heading">#</a></h2>
+<p>When running in a distributed environment, <code class="docutils literal notranslate"><span class="pre">scDataset</span></code> automatically partitions
+data across workers using round-robin assignment. Each worker (rank) processes
+only its assigned portion of the data, ensuring no overlap.</p>
+<p><strong>Key features:</strong></p>
+<ul class="simple">
+<li><p><strong>Automatic rank detection</strong>: Works with <code class="docutils literal notranslate"><span class="pre">torch.distributed</span></code> environment variables</p></li>
+<li><p><strong>Round-robin partitioning</strong>: Even distribution of data across all ranks</p></li>
+<li><p><strong>Per-epoch shuffling</strong>: Automatic epoch counter ensures different data ordering each epoch</p></li>
+<li><p><strong>Deterministic splits</strong>: Same data partition for a given rank/world_size/seed</p></li>
+</ul>
+</section>
+<section id="basic-ddp-setup">
+<h2>Basic DDP Setup<a class="headerlink" href="#basic-ddp-setup" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn.parallel</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedDataParallel</span> <span class="k">as</span> <span class="n">DDP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">scDataset</span><span class="p">,</span> <span class="n">BlockShuffling</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_distributed</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize distributed training.&quot;&quot;&quot;</span>
+    <span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;nccl&quot;</span><span class="p">)</span>
+    <span class="n">rank</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span>
+    <span class="n">world_size</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">get_world_size</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">rank</span><span class="p">,</span> <span class="n">world_size</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">rank</span><span class="p">,</span> <span class="n">world_size</span> <span class="o">=</span> <span class="n">setup_distributed</span><span class="p">()</span>
+    <span class="n">local_rank</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOCAL_RANK&quot;</span><span class="p">])</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">local_rank</span><span class="p">)</span>
+
+    <span class="c1"># Load your data source</span>
+    <span class="n">adata</span> <span class="o">=</span> <span class="n">load_adata</span><span class="p">()</span>  <span class="c1"># Your data loading function</span>
+
+    <span class="c1"># Create scDataset - it automatically detects rank and world_size</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+        <span class="n">adata</span><span class="p">,</span>
+        <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+        <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+        <span class="n">fetch_callback</span><span class="o">=</span><span class="n">my_fetch_fn</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Create DataLoader (no DistributedSampler needed!)</span>
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># Batching handled by scDataset</span>
+        <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">65</span>  <span class="c1"># fetch_factor + 1</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Standard DDP model setup</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">YourModel</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">local_rank</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">DDP</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="n">local_rank</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">local_rank</span><span class="p">)</span>
+            <span class="c1"># Training code here</span>
+            <span class="k">pass</span>
+
+    <span class="n">dist</span><span class="o">.</span><span class="n">destroy_process_group</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="manual-rank-configuration">
+<h2>Manual Rank Configuration<a class="headerlink" href="#manual-rank-configuration" title="Link to this heading">#</a></h2>
+<p>You can also manually specify rank and world_size without relying on
+environment variables:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Explicit rank configuration</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+    <span class="n">adata</span><span class="p">,</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">fetch_callback</span><span class="o">=</span><span class="n">my_fetch_fn</span><span class="p">,</span>
+    <span class="n">rank</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>          <span class="c1"># This worker&#39;s rank (0-indexed)</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span>     <span class="c1"># Total number of workers</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="data-partitioning">
+<h2>Data Partitioning<a class="headerlink" href="#data-partitioning" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">scDataset</span></code> uses round-robin partitioning to distribute data across workers:</p>
+<ul class="simple">
+<li><p><strong>Rank 0</strong>: Indices 0, 4, 8, 12, …</p></li>
+<li><p><strong>Rank 1</strong>: Indices 1, 5, 9, 13, …</p></li>
+<li><p><strong>Rank 2</strong>: Indices 2, 6, 10, 14, …</p></li>
+<li><p><strong>Rank 3</strong>: Indices 3, 7, 11, 15, …</p></li>
+</ul>
+<p>This ensures even distribution and allows each worker to process its portion
+independently without communication during data loading.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: Understanding partitioning</span>
+<span class="c1"># With 1000 samples and world_size=4:</span>
+<span class="c1"># - Each rank processes ~250 samples</span>
+<span class="c1"># - Rank 0: samples at positions 0, 4, 8, ... (250 samples)</span>
+<span class="c1"># - Rank 1: samples at positions 1, 5, 9, ... (250 samples)</span>
+<span class="c1"># etc.</span>
+</pre></div>
+</div>
+</section>
+<section id="automatic-epoch-handling">
+<h2>Automatic Epoch Handling<a class="headerlink" href="#automatic-epoch-handling" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">scDataset</span></code> automatically increments an internal epoch counter each time the
+dataset is iterated. This means different shuffling happens automatically each epoch.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Unlike PyTorch’s <code class="docutils literal notranslate"><span class="pre">DistributedSampler</span></code>, you do <strong>not</strong> need to call <code class="docutils literal notranslate"><span class="pre">set_epoch()</span></code>
+before each epoch. <code class="docutils literal notranslate"><span class="pre">scDataset</span></code> handles this internally by combining the base seed
+with an auto-incrementing epoch counter.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Different shuffling each epoch automatically - no set_epoch() needed!</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+        <span class="n">train_step</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+    <span class="c1"># Epoch counter auto-increments when iteration completes</span>
+</pre></div>
+</div>
+<p>For reproducibility across runs, you can set a base seed in the constructor:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="c1"># Same seed = same shuffling sequence across runs</span>
+</pre></div>
+</div>
+</section>
+<section id="launching-distributed-training">
+<h2>Launching Distributed Training<a class="headerlink" href="#launching-distributed-training" title="Link to this heading">#</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">torchrun</span></code> to launch distributed training:</p>
+<p><strong>Single Node, Multiple GPUs:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>torchrun<span class="w"> </span>--nproc_per_node<span class="o">=</span><span class="m">4</span><span class="w"> </span>train.py
+</pre></div>
+</div>
+<p><strong>Multiple Nodes:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># On node 0 (master):</span>
+torchrun<span class="w"> </span>--nproc_per_node<span class="o">=</span><span class="m">4</span><span class="w"> </span>--nnodes<span class="o">=</span><span class="m">2</span><span class="w"> </span>--node_rank<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--master_addr<span class="o">=</span>&lt;master_ip&gt;<span class="w"> </span>--master_port<span class="o">=</span><span class="m">29500</span><span class="w"> </span>train.py
+
+<span class="c1"># On node 1:</span>
+torchrun<span class="w"> </span>--nproc_per_node<span class="o">=</span><span class="m">4</span><span class="w"> </span>--nnodes<span class="o">=</span><span class="m">2</span><span class="w"> </span>--node_rank<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--master_addr<span class="o">=</span>&lt;master_ip&gt;<span class="w"> </span>--master_port<span class="o">=</span><span class="m">29500</span><span class="w"> </span>train.py
+</pre></div>
+</div>
+</section>
+<section id="complete-training-example">
+<h2>Complete Training Example<a class="headerlink" href="#complete-training-example" title="Link to this heading">#</a></h2>
+<p>Here’s a complete example with all components:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn.parallel</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedDataParallel</span> <span class="k">as</span> <span class="n">DDP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">anndata</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ad</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">scDataset</span><span class="p">,</span> <span class="n">BlockShuffling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset.transforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">adata_to_mindex</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">():</span>
+    <span class="c1"># Initialize distributed</span>
+    <span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;nccl&quot;</span><span class="p">)</span>
+    <span class="n">local_rank</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOCAL_RANK&quot;</span><span class="p">])</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">local_rank</span><span class="p">)</span>
+
+    <span class="c1"># Load data (each rank loads independently)</span>
+    <span class="n">adata</span> <span class="o">=</span> <span class="n">ad</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="s2">&quot;large_dataset.h5ad&quot;</span><span class="p">,</span> <span class="n">backed</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Create dataset - DDP handled automatically</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+        <span class="n">adata</span><span class="p">,</span>
+        <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span>
+        <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+        <span class="n">fetch_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="n">adata_to_mindex</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="p">)</span>
+
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">33</span><span class="p">)</span>
+
+    <span class="c1"># Model setup</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">n_vars</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">local_rank</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">DDP</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="n">local_rank</span><span class="p">])</span>
+
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+
+    <span class="c1"># Training loop - shuffling changes automatically each epoch!</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">loader</span><span class="p">):</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">local_rank</span><span class="p">)</span>
+
+            <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">batch</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">128</span><span class="p">])</span>  <span class="c1"># Reconstruction</span>
+
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">batch_idx</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">local_rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">, Batch </span><span class="si">{</span><span class="n">batch_idx</span><span class="si">}</span><span class="s2">, Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">dist</span><span class="o">.</span><span class="n">destroy_process_group</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">train</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="weighted-sampling-with-ddp">
+<h2>Weighted Sampling with DDP<a class="headerlink" href="#weighted-sampling-with-ddp" title="Link to this heading">#</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 0.3.0.</span></p>
+</div>
+<p>One of <code class="docutils literal notranslate"><span class="pre">scDataset</span></code>’s unique advantages is native support for <strong>weighted sampling
+in distributed training scenarios</strong>. This is a capability that PyTorch does not
+provide out of the box.</p>
+<p><strong>The Problem with PyTorch’s Approach</strong></p>
+<p>PyTorch provides <code class="docutils literal notranslate"><span class="pre">WeightedRandomSampler</span></code> for handling class imbalance and
+<code class="docutils literal notranslate"><span class="pre">DistributedSampler</span></code> for distributed training, but these two samplers are
+incompatible with each other. This has been a <a class="reference external" href="https://github.com/pytorch/pytorch/issues/23430">long-standing issue</a> in the PyTorch ecosystem.
+While a <a class="reference external" href="https://github.com/pytorch/pytorch/pull/150182">DistributedWeightedRandomSampler PR</a>
+exists, it remains unmerged as of January 2026.</p>
+<p><strong>scDataset’s Solution</strong></p>
+<p>With <code class="docutils literal notranslate"><span class="pre">scDataset</span></code>, weighted sampling and distributed training are <strong>decoupled by design</strong>.
+The sampling strategy operates on the data collection level, and DDP partitioning
+is applied automatically on top of that. This means you can use any strategy, including
+<code class="docutils literal notranslate"><span class="pre">BlockWeightedSampling</span></code> and <code class="docutils literal notranslate"><span class="pre">ClassBalancedSampling</span></code>, without any special configuration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">scDataset</span><span class="p">,</span> <span class="n">BlockWeightedSampling</span>
+
+<span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;nccl&quot;</span><span class="p">)</span>
+
+<span class="c1"># Weighted sampling just works in DDP - no special wrappers needed!</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">compute_sample_weights</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;cell_type&#39;</span><span class="p">])</span>  <span class="c1"># Your weights</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+    <span class="n">adata</span><span class="p">,</span>
+    <span class="n">BlockWeightedSampling</span><span class="p">(</span>
+        <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span>
+        <span class="n">total_size</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+        <span class="n">block_size</span><span class="o">=</span><span class="mi">64</span>
+    <span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">fetch_callback</span><span class="o">=</span><span class="n">my_fetch_fn</span>
+<span class="p">)</span>
+
+<span class="c1"># Each GPU gets a different portion of the weighted-sampled data</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Why This Matters</strong></p>
+<p>To the best of our knowledge, <code class="docutils literal notranslate"><span class="pre">scDataset</span></code> is among the first libraries to provide
+efficient on-disk weighted sampling that works natively with DDP. This is possible
+because:</p>
+<ol class="arabic simple">
+<li><p><strong>Strategy and distribution are decoupled</strong>: The sampling strategy generates
+indices, and DDP partitioning is applied afterward</p></li>
+<li><p><strong>Deterministic seeding</strong>: All ranks use the same base seed plus epoch offset,
+ensuring coordinated but different data across GPUs</p></li>
+<li><p><strong>On-disk efficiency</strong>: By fetching only the required indices, <code class="docutils literal notranslate"><span class="pre">scDataset</span></code>
+avoids loading the entire dataset into memory, making large-scale weighted
+sampling practical even for billion-cell datasets</p></li>
+</ol>
+</section>
+<section id="ddp-with-any-strategy">
+<h2>DDP with Any Strategy<a class="headerlink" href="#ddp-with-any-strategy" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">scDataset</span></code> supports <strong>any sampling strategy in DDP mode</strong>. The distributed
+partitioning layer is orthogonal to the strategy layer:</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Strategy-DDP Compatibility</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Strategy</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Streaming</span></code></p></td>
+<td><p>Simple sequential access, partitioned across GPUs</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">BlockShuffling</span></code></p></td>
+<td><p>Block-shuffled access, each GPU gets different blocks</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">BlockWeightedSampling</span></code></p></td>
+<td><p>Weighted sampling with DDP partitioning</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ClassBalancedSampling</span></code></p></td>
+<td><p>Class-balanced with automatic DDP support</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># All strategies work the same way in DDP</span>
+
+<span class="c1"># Simple streaming</span>
+<span class="n">dataset1</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">Streaming</span><span class="p">(),</span> <span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># Block shuffling</span>
+<span class="n">dataset2</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span> <span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># Weighted sampling</span>
+<span class="n">dataset3</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">BlockWeightedSampling</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">w</span><span class="p">),</span> <span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># Class-balanced</span>
+<span class="n">dataset4</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">ClassBalancedSampling</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">l</span><span class="p">),</span> <span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># All automatically partition data across GPUs when run with torchrun</span>
+</pre></div>
+</div>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>No DistributedSampler needed</strong>: <code class="docutils literal notranslate"><span class="pre">scDataset</span></code> handles partitioning internally</p></li>
+<li><p><strong>Use ``batch_size=None`` in DataLoader</strong>: Batching is handled by <code class="docutils literal notranslate"><span class="pre">scDataset</span></code></p></li>
+<li><p><strong>Backed mode for large files</strong>: Use <code class="docutils literal notranslate"><span class="pre">ad.read_h5ad(path,</span> <span class="pre">backed='r')</span></code> to avoid
+loading entire datasets into memory on each rank</p></li>
+<li><p><strong>Same data across ranks</strong>: Ensure all ranks can access the same data files</p></li>
+<li><p><strong>Logging on rank 0 only</strong>: Print/log only from rank 0 to avoid duplicate output</p></li>
+<li><p><strong>Synchronize when needed</strong>: Use <code class="docutils literal notranslate"><span class="pre">dist.barrier()</span></code> for synchronization points</p></li>
+<li><p><strong>Set seed for reproducibility</strong>: Use the <code class="docutils literal notranslate"><span class="pre">seed</span></code> parameter (e.g., <code class="docutils literal notranslate"><span class="pre">seed=42</span></code>)
+if you need identical shuffling sequences across different runs</p></li>
+<li><p><strong>Weighted sampling works out of the box</strong>: Use <code class="docutils literal notranslate"><span class="pre">BlockWeightedSampling</span></code> or
+<code class="docutils literal notranslate"><span class="pre">ClassBalancedSampling</span></code> in DDP without any special configuration</p></li>
+</ol>
+</section>
+<section id="dataloader-multiprocessing-num-workers">
+<h2>DataLoader Multiprocessing (num_workers)<a class="headerlink" href="#dataloader-multiprocessing-num-workers" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">scDataset</span></code> works seamlessly with PyTorch DataLoader’s <code class="docutils literal notranslate"><span class="pre">num_workers</span></code> parameter
+for multiprocessing-based data loading. This enables parallel data fetching and
+preprocessing while the GPU trains on the current batch.</p>
+<p><strong>Basic Usage</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">scDataset</span><span class="p">,</span> <span class="n">BlockShuffling</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span>
+<span class="p">)</span>
+
+<span class="c1"># Use num_workers for parallel data loading</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># IMPORTANT: batching handled by scDataset</span>
+    <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>     <span class="c1"># Use 4 worker processes</span>
+    <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">65</span>  <span class="c1"># Prefetch 65 batches per worker</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+    <span class="c1"># Training code here</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p><strong>How It Works</strong></p>
+<p>When <code class="docutils literal notranslate"><span class="pre">num_workers</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>, PyTorch spawns worker processes that load data in parallel:</p>
+<ol class="arabic simple">
+<li><p>Each worker independently iterates over <code class="docutils literal notranslate"><span class="pre">scDataset</span></code></p></li>
+<li><p>Workers use PyTorch’s automatic data splitting via <code class="docutils literal notranslate"><span class="pre">get_worker_info()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scDataset</span></code> detects worker count and ID, partitioning data among workers</p></li>
+<li><p>Batches are prefetched and queued for the main process</p></li>
+</ol>
+<p><strong>Combining with DDP</strong></p>
+<p>Both DDP partitioning and DataLoader multiprocessing work together:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In a DDP training script launched with torchrun</span>
+<span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;nccl&quot;</span><span class="p">)</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+    <span class="n">adata</span><span class="p">,</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span>
+    <span class="c1"># rank and world_size auto-detected from torch.distributed</span>
+<span class="p">)</span>
+
+<span class="c1"># Each DDP rank uses multiple workers</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span>  <span class="c1"># 4 workers PER GPU</span>
+<span class="p">)</span>
+
+<span class="c1"># With 4 GPUs and 4 workers each, you have 16 worker processes total</span>
+</pre></div>
+</div>
+<p><strong>Choosing num_workers</strong></p>
+<ul class="simple">
+<li><p>Start with <code class="docutils literal notranslate"><span class="pre">num_workers=2-4</span></code> and increase if GPU utilization is low</p></li>
+<li><p>More workers = more memory usage (each loads data separately)</p></li>
+<li><p>For backed HDF5 files, each worker opens its own file handle</p></li>
+<li><p>Monitor CPU and memory usage to find the optimal value</p></li>
+</ul>
+<p><strong>Important Notes</strong></p>
+<ul class="simple">
+<li><p>Always use <code class="docutils literal notranslate"><span class="pre">batch_size=None</span></code> in DataLoader (batching is handled by scDataset)</p></li>
+<li><p>For backed AnnData, each worker opens its own file handle</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">seed</span></code> parameter ensures reproducibility across workers</p></li>
+</ul>
+</section>
+<section id="dataparallel-dp-support">
+<h2>DataParallel (DP) Support<a class="headerlink" href="#dataparallel-dp-support" title="Link to this heading">#</a></h2>
+<p>For simpler single-node multi-GPU setups, you can use PyTorch’s <code class="docutils literal notranslate"><span class="pre">DataParallel</span></code>
+instead of <code class="docutils literal notranslate"><span class="pre">DistributedDataParallel</span></code>. This is easier to set up but less efficient
+than DDP for large-scale training.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">scDataset</span><span class="p">,</span> <span class="n">BlockShuffling</span>
+
+<span class="c1"># DataParallel doesn&#39;t need distributed setup</span>
+<span class="c1"># scDataset works normally without rank/world_size</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">scDataset</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">BlockShuffling</span><span class="p">(</span><span class="n">block_size</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">fetch_factor</span><span class="o">=</span><span class="mi">64</span>
+<span class="p">)</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+
+<span class="c1"># Wrap model with DataParallel</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span><span class="si">}</span><span class="s2"> GPUs with DataParallel&quot;</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">DataParallel</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>  <span class="c1"># DataParallel handles GPU distribution</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+    <span class="c1"># Training code here</span>
+</pre></div>
+</div>
+<p><strong>When to Use DataParallel vs DDP</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 40.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>DataParallel (DP)</p></th>
+<th class="head"><p>DistributedDataParallel (DDP)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Setup</p></td>
+<td><p>Simple, no <code class="docutils literal notranslate"><span class="pre">torchrun</span></code> needed</p></td>
+<td><p>Requires distributed initialization</p></td>
+</tr>
+<tr class="row-odd"><td><p>Efficiency</p></td>
+<td><p>Slower due to GIL and data copying</p></td>
+<td><p>Faster, recommended for production</p></td>
+</tr>
+<tr class="row-even"><td><p>Multi-node</p></td>
+<td><p>No</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>Data handling</p></td>
+<td><p>Single DataLoader, GPU scatter</p></td>
+<td><p>Per-GPU DataLoader, no scatter</p></td>
+</tr>
+<tr class="row-even"><td><p>scDataset usage</p></td>
+<td><p>Normal (no rank/world_size)</p></td>
+<td><p>Auto-detected rank/world_size</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Recommendation</strong>: Use DDP for serious training workloads. DataParallel is
+acceptable for quick experiments or when simplicity is more important than
+maximum throughput.</p>
+</section>
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pytorch.org/tutorials/intermediate/ddp_tutorial.html">PyTorch DDP Tutorial</a></p></li>
+<li><p><a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.distributed.DistributedSampler">PyTorch DistributedSampler Documentation</a></p></li>
+<li><p><a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader">PyTorch DataLoader num_workers</a></p></li>
+<li><p><a class="reference external" href="https://github.com/pytorch/pytorch/issues/23430">PyTorch Issue #23430</a> - Feature request for DistributedWeightedRandomSampler</p></li>
+<li><p><a class="reference external" href="https://github.com/pytorch/pytorch/pull/150182">PyTorch PR #150182</a> - Proposed DistributedWeightedRandomSampler (not merged)</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="transforms.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data Transforms and Callbacks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="scdataset.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API Reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ddp-works">How DDP Works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-ddp-setup">Basic DDP Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-rank-configuration">Manual Rank Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-partitioning">Data Partitioning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-epoch-handling">Automatic Epoch Handling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#launching-distributed-training">Launching Distributed Training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-training-example">Complete Training Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-sampling-with-ddp">Weighted Sampling with DDP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ddp-with-any-strategy">DDP with Any Strategy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataloader-multiprocessing-num-workers">DataLoader Multiprocessing (num_workers)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataparallel-dp-support">DataParallel (DP) Support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">Further Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide D'Ascenzo
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Davide D&#39;Ascenzo.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
